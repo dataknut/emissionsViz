@@ -1,0 +1,159 @@
+---
+params:
+  subtitle: ""
+  title: ""
+  authors: ""
+  parish: ""
+  la: ""
+title: '`r params$title`'
+subtitle: '`r params$subtitle`'
+author: '`r params$authors`'
+date: 'Last run at: `r Sys.time()`'
+output: pdf_document
+#classoption: landscape
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(fig.width=8)
+
+library(data.table)
+library(ggplot2)
+
+parish <- params$parish
+la <- params$la
+
+# load the data and melt it to long form as we go
+parish_terr_abs <- path.expand("~/Dropbox/data/cse/cse_ImpactTool/2021-12-07/parish-all-territorial-absolute.csv")
+mdt <- melt(data.table::fread(parish_terr_abs), id.vars = c("id", "name"))
+parish_terr_absDT <- mdt[variable != "Power generation (t CO2e)"]
+parish_terr_perhh <- path.expand("~/Dropbox/data/cse/cse_ImpactTool/2021-12-07/parish-all-territorial-per-household.csv")
+mdt <- melt(data.table::fread(parish_terr_perhh), id.vars = c("id", "name"))
+parish_terr_perhhDT <- mdt[variable != "Power generation (t CO2e)"]
+
+parish_cons_abs <- path.expand("~/Dropbox/data/cse/cse_ImpactTool/2021-12-07/parish-all-consumption-absolute.csv")
+parish_cons_absDT <- melt(data.table::fread(parish_cons_abs), id.vars = c("id", "name"))
+parish_cons_perhh <- path.expand("~/Dropbox/data/cse/cse_ImpactTool/2021-12-07/parish-all-consumption-per-household.csv")
+parish_cons_perhhDT <- melt(data.table::fread(parish_cons_perhh), id.vars = c("id", "name"))
+
+la_terr_perhh <- path.expand("~/Dropbox/data/cse/cse_ImpactTool/local-authority-all-territorial-per-household.csv.gz")
+mdt <- melt(data.table::fread(la_terr_perhh), id.vars = c("id", "name"))
+la_terr_perhhDT <- mdt[variable != "Power generation (t CO2e)"]
+
+la_cons_perhh <- path.expand("~/Dropbox/data/cse/cse_ImpactTool/local-authority-all-consumption-per-household.csv.gz")
+la_cons_perhhDT <- melt(data.table::fread(la_cons_perhh), id.vars = c("id", "name"))
+
+```
+
+```{r setTerrColours}
+# set the colours ---
+# colours borrowed from https://git.soton.ac.uk/twr1m15/la_emissions_viz/-/blob/master/shiny/app.R
+# for details, use set for each sector
+cse_terr_domestic_pal <- RColorBrewer::brewer.pal(n = 8, name = "Blues")[3:8]    # domestic blues, 6 categories
+
+cse_terr_industry_pal <- RColorBrewer::brewer.pal(n = 8, name = "Greys")[3:8]    # industry greys, 6 categories incl Agric
+
+cse_terr_transport_pal <- RColorBrewer::brewer.pal(n = 9, name = "Oranges")[3:7] # transport incl aviation & shipping oranges, 5 categories
+
+cse_terr_other_pal <- RColorBrewer::brewer.pal(n = 6, name = "RdPu")[4:5]    #  greys,  2 categories  waste & F-gases
+
+cse_terr_lulucf_pal <- "#31A354" # pick a green
+
+# for details, combine sets
+cse_terr_colours <- c(cse_terr_domestic_pal, 
+                      cse_terr_industry_pal, 
+                      cse_terr_transport_pal,
+                      cse_terr_lulucf_pal,
+                      cse_terr_other_pal)
+parish_terr_absDT[, variable := factor(variable)]
+cse_terr_catList <- unique(parish_terr_absDT$variable) # this is not alphabetical - why?
+# force into the same order as the colours
+cse_terr_catList2 <- c(cse_terr_catList[1:15], cse_terr_catList[17:18], 
+                       cse_terr_catList[20], cse_terr_catList[16],cse_terr_catList[19] )
+
+names(cse_terr_colours) <- cse_terr_catList2 # associate the names (in this order) with the colours
+```
+
+\newpage
+
+# Territorial emissions: `r parish` parish
+
+```{r parishAbsolutePlot}
+plotDT <- parish_terr_absDT[name == parish]
+p <- ggplot2::ggplot(plotDT, aes(x = reorder(variable, -value), 
+                       y = value,
+                       fill = variable)) +
+  geom_col() +
+  scale_fill_manual(values = cse_terr_colours) +
+  theme(legend.position = "none") +
+  labs(x = "Emissions source",
+       y = "T CO2e/annum") +
+  coord_flip()
+
+p
+```
+
+Total territorial emissions: `r sum(plotDT$value)``
+
+# Territorial emissions: `r parish` parish (cumulative)
+
+```{r parishAbsolutePlotCumulative}
+t <- plotDT[order(-value)]
+t[, cumulative := cumsum(value)]
+
+pc_50 <- 0.5*(sum(t$value))
+pc_75 <- 0.75*(sum(t$value))
+pc_95 <- 0.95*(sum(t$value))
+
+p <- ggplot2::ggplot(t, aes(x = reorder(variable, -value), 
+                       y = cumulative,
+                       colour = variable)) +
+  geom_point() +
+  ylim(0,NA) +
+  scale_colour_manual(values = cse_terr_colours) +
+  theme(legend.position = "none") +
+  labs(x = "Emissions source",
+       y = "Cumulative T CO2e/annum",
+       cap = "Vertical lines = % of net emissions") +
+  coord_flip()
+
+# add reference lines
+p <- p + 
+  geom_hline(aes(yintercept = pc_50), colour = "grey") +
+  geom_hline(aes(yintercept = pc_75), colour = "grey") +
+  geom_hline(aes(yintercept = pc_95), colour = "grey") +
+  annotate("text", x = "Other Transport (t CO2e)", y = pc_50-1.4, label = "50%", colour = "grey") +
+  annotate("text", x = "Other Transport (t CO2e)", y = pc_75-1.4, label = "75%", colour = "grey") +
+  annotate("text", x = "Other Transport (t CO2e)", y = pc_95-1.4, label = "95%", colour = "grey")
+p
+```
+\newpage
+
+# Territorial emissions: comparing `r parish` parish and `r la` district
+
+```{r parishLaPerhhPlot}
+parDT <- parish_terr_perhhDT[name == parish]
+laDT <- la_terr_perhhDT[name == la]
+plotDT <- rbind(parDT, laDT)
+
+p <- ggplot2::ggplot(plotDT, aes(x = reorder(variable, -value), 
+                       y = value,
+                       group = name,
+                       fill = name)) +
+  geom_col(position = "dodge") +
+  labs(x = "Emissions source",
+       y = "T CO2e/household") +
+  theme(legend.position="bottom") +
+  scale_fill_discrete(name = "Area") +
+  coord_flip()
+
+p
+```
+\newpage
+
+# Data
+
+Parish level estimates from the Centre for Sustainable Energy's 'Impact Tool':
+
+ - Data [download](https://impact-tool.org.uk/download)
+ - Methodology [Guidance](https://impact-tool.org.uk/static/doc/Impact-methodology-paper-v1.6.pdf)
