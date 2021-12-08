@@ -11,7 +11,6 @@ author: '`r params$authors`'
 date: 'Last run at: `r Sys.time()`'
 output:
   bookdown::pdf_document2:
-  bookdown::word_document2:
 #classoption: landscape
 ---
 
