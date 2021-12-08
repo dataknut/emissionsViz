@@ -74,6 +74,32 @@ cse_terr_catList2 <- c(cse_terr_catList[1:15], cse_terr_catList[17:18],
 names(cse_terr_colours) <- cse_terr_catList2 # associate the names (in this order) with the colours
 ```
 
+# What are you looking at?
+
+The graphs that follow show the estimated emissions per year for the selected parish. They show this using two methods:
+
+ * [Territorial-based](https://www.ons.gov.uk/economy/environmentalaccounts/articles/netzeroandthedifferentofficialmeasuresoftheuksgreenhousegasemissions/2019-07-24#measuring-the-uks-progress-to-net-zero) emissions: the emissions that come from activities carried out _in_ the parish
+ * [Consumption-based](https://www.ons.gov.uk/economy/environmentalaccounts/articles/netzeroandthedifferentofficialmeasuresoftheuksgreenhousegasemissions/2019-07-24#the-uks-carbon-footprint) emissions: the emissions that come from the production of the goods and services we consume, wherever they are emitted
+
+The per-household emissions for each parish are also compared with the per-household emissions for the district in which the parish sits. This lets you see how above or below 'average' for your district you are.
+
+The data used comes from a University of Exeter/Centre for Sustainable Energy [project](https://impact-tool.org.uk/about) and it combines:
+
+ * data that can be measured at parish level (e.g. gas & electricity) and 
+ * data that are estimated for each Parish based on the kinds of people that live there (Census data), transport infrastructure, land-use and local business/commercial activity. 
+
+As the [CSE guidance](https://impact-tool.org.uk/using-the-tool) notes, the parish level territorial estimates are perhaps best used to paint a broad brush picture of ’the big things’ that are _likely_ to be the main parish level emissions sources. Sometimes this might highlight major through-roads as large emissions sources which can seem unfair if most of the traffic is from 'out of parish'. It can also identify a local industrial or agricultural activity as a major source. The parish may not think it can influence this but it could lead to constructive discussions with those businesses (for example). 
+
+The consumption estimates are best used to show which aspects of the parish' consumption are _likely_ to be the biggest contributors and thus a) what we should try to do/use less of and/or b) how we should deliberately spend in ways that reduce our emissions footprint. Of course if 100% of the parish never fly and never eat meat/fish then the estimated parish footprints will be wrong... etc
+
+Further information:
+
+ * the [differences](https://impact-tool.org.uk/using-the-tool) between territorial-based and consumption-based emissions
+ * use the tool [online](https://impact-tool.org.uk/footprint/search) 
+ * guide to [using the tool](https://impact-tool.org.uk/using-the-tool) online
+ * the [methods](https://impact-tool.org.uk/methodology) used to estimate the emissions
+ * [download](https://impact-tool.org.uk/download) the data for yourself
+
 \newpage
 
 # Territorial emissions: `r parish` parish
@@ -151,9 +177,10 @@ p
 ```
 \newpage
 
-# Data
+# Consumption emissions: `r parish` parish
 
-Parish level estimates from the Centre for Sustainable Energy's 'Impact Tool':
+To do
 
- - Data [download](https://impact-tool.org.uk/download)
- - Methodology [Guidance](https://impact-tool.org.uk/static/doc/Impact-methodology-paper-v1.6.pdf)
+# Territorial emissions: comparing `r parish` parish and `r la` district
+
+To do
