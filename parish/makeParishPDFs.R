@@ -8,13 +8,21 @@ source(here::here("R", "functions.R"))
 
 makeReport <- function(p, title, subtitle, authors, la){
   # default = html
-  rmarkdown::render(input = here::here("parish_pdfTemplate.Rmd"),
+  rmarkdown::render(input = here::here("parish", "parish_pdfTemplate.Rmd"),
                     params = list(title = title,
                                   subtitle = subtitle,
                                   authors = authors,
                                   parish = parish,
                                   la = la),
                     output_file = paste0(here::here("docs/parish_"), parish, ".pdf")
+  )
+  rmarkdown::render(input = here::here("parish","parish_pdfTemplate.Rmd"),
+                    params = list(title = title,
+                                  subtitle = subtitle,
+                                  authors = authors,
+                                  parish = parish,
+                                  la = la),
+                    output_file = paste0(here::here("docs/parish_"), parish, ".docx")
   )
 }
 
