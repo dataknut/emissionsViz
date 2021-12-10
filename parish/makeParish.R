@@ -17,7 +17,7 @@ makeReport <- function(p, title, subtitle, authors, la){
 }
 
 # Fails for parishes inside unitary authorities due to look-up table (see rmd)
-pList <- c("Framlingham", "Badingham", "Botley")
+pList <- c("Botley", "Framlingham", "Badingham")
 
 for(p in pList){
   title <- p

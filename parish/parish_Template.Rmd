@@ -144,29 +144,29 @@ See the [CSE guidance on using the data](https://impact-tool.org.uk/using-the-to
 
 \newpage
 
-# Territorial emissions: `r parish` parish
+## Which are our biggest territorial emissions sources?
 
-```{r parishAbsoluteTerrPlot}
+```{r parishAbsoluteTerrPlot, fig.height=4}
 plotDT <- parish_terr_absDT[name == parish]
+parish_terr_sum_kT <- sum(plotDT$value)/1000
+myCap <- paste0(parish, ": total territorial emissions = ", round(parish_terr_sum_kT,1), " kT CO2e")
 p <- ggplot2::ggplot(plotDT, aes(x = reorder(variable, -value), 
                        y = value,
                        fill = variable)) +
   geom_col() +
   scale_fill_manual(values = cse_terr_colours) +
   theme(legend.position = "none") +
-  labs(caption= "Which are our biggest territorial emissions sources?",
-       x = "Emissions source",
-       y = "T CO2e/annum") +
+  labs(x = "Emissions source",
+       y = "T CO2e/annum",
+       caption = myCap) +
   coord_flip()
 
 p
 ```
 
-Total territorial emissions: `r round(parish_terr_sum_kT,1)` kT CO2e.
+## Which big sources make up 50%, 75% or 95% of our territorial emissions?
 
-# Territorial emissions: `r parish` parish (cumulative)
-
-```{r parishAbsoluteTerrPlotCumulative}
+```{r parishAbsoluteTerrPlotCumulative, fig.height=4}
 t <- plotDT[order(-value)]
 t[, cumulative := cumsum(value)]
 
@@ -181,10 +181,9 @@ p <- ggplot2::ggplot(t, aes(x = reorder(variable, -value),
   ylim(0,NA) +
   scale_colour_manual(values = cse_terr_colours) +
   theme(legend.position = "none") +
-  labs(caption = "If we wanted to address the largest sources that make up 95% of our territorial emissions, where should we focus?",
-       x = "Emissions source",
+  labs(x = "Emissions source",
        y = "Cumulative T CO2e/annum",
-       cap = "Vertical lines = % of net emissions") +
+       caption = "Vertical lines = % of net emissions") +
   coord_flip()
 
 # add reference lines
@@ -202,9 +201,9 @@ p
 
 \newpage
 
-# Territorial emissions: comparing `r parish` parish and `r la` district
+## How do our per household territorial emissions compare with our district?
 
-```{r parishLaPerhhTerrPlot}
+```{r parishLaPerhhTerrPlot, fig.height=4}
 parDT <- parish_terr_perhhDT[name == parish]
 laDT <- la_terr_perhhDT[name == la]
 plotDT <- rbind(parDT, laDT)
@@ -212,46 +211,57 @@ plotDT <- rbind(parDT, laDT)
 p <- ggplot2::ggplot(plotDT, aes(x = reorder(variable, -value), 
                        y = value,
                        group = name,
-                       fill = name)) +
+                       fill = variable,
+                       alpha = name)) +
   geom_col(position = "dodge") +
-  labs(caption = "How do our per household territorial emissions compare with our district?",
-       x = "Emissions source",
+  scale_fill_manual(values = cse_terr_colours) +
+  guides(fill = "none") +
+  scale_alpha_discrete(name = "Area", range = c(0.8,0.4)) +
+  labs(x = "Emissions source",
        y = "T CO2e/household") +
   theme(legend.position="bottom") +
-  scale_fill_discrete(name = "Area") +
   coord_flip()
 
 p
+
+sum_p_perhh <- sum(parDT$value)
+sum_d_perhh <- sum(laDT$value)
 ```
+
+For comparison:
+
+ * `r parish` total per household territorial emissions = `r round(sum_p_perhh,1)` T CO2e
+ * `r la` total per household territorial emissions = `r round(sum_d_perhh,1)` T CO2e
+ 
 \newpage
 
-# Consumption emissions: `r parish` parish
+## Which are our biggest consumption emissions sources?
 
-```{r parishAbsoluteConsPlot}
+```{r parishAbsoluteConsPlot, fig.height=4}
 plotDT <- parish_cons_absDT[name == parish]
+parish_cons_sum_kT <- sum(plotDT$value)/1000
+pcDiff <- 100*parish_cons_sum_kT/parish_terr_sum_kT
+
+myCap <- paste0(parish, ": total consumption emissions = ", round(parish_cons_sum_kT,1), " kT CO2e, ",
+                round(pcDiff) , " % of our territorial emissions")
+
 p <- ggplot2::ggplot(plotDT, aes(x = reorder(variable_n, -value), 
                        y = value,
                        fill = variable_n)) +
   geom_col() +
   scale_fill_manual(values = cse_cons_colours) +
   theme(legend.position = "none") +
-  labs(caption = "Which are our biggest consumption emissions sources?",
+  labs(caption = myCap,
        x = "Emissions source",
        y = "T CO2e/annum") +
   coord_flip()
 
 p
-
-parish_cons_sum_kT <- sum(plotDT$value)/1000
-
-pcDiff <- 100*parish_cons_sum_kT/parish_terr_sum_kT
 ```
 
-Total consumption emissions: `r round(parish_cons_sum_kT, 1)` kT CO2e - that's `r round(pcDiff)` % of territorial emissions.
+## Which big sources make up 50%, 75% or 95% of our consumption emissions?
 
-# Consumption emissions: `r parish` parish (cumulative)
-
-```{r parishAbsoluteConsPlotCumulative}
+```{r parishAbsoluteConsPlotCumulative, fig.height=4}
 t <- plotDT[, .(variable_n, value)][order(-value)]
 t[, cumulative := cumsum(value)]
 
@@ -266,10 +276,9 @@ p <- ggplot2::ggplot(t, aes(x = reorder(variable_n, -value),
   ylim(0,NA) +
   scale_colour_manual(values = cse_cons_colours) +
   theme(legend.position = "none") +
-  labs(caption = "If we wanted to address the largest sources that make up 95% of our consumption emissions, where should we focus?",
-       x = "Emissions source",
+  labs(x = "Emissions source",
        y = "Cumulative T CO2e/annum",
-       cap = "Vertical lines = % of net emissions") +
+       caption = "Vertical lines = % of net emissions") +
   coord_flip()
 
 # add reference lines
@@ -286,9 +295,9 @@ p
 
 \newpage
 
-# Consumption emissions: comparing `r parish` parish and `r la` district
+## How do our per household consumption emissions compare with our district?
 
-```{r parishLaPerhhConsPlot}
+```{r parishLaPerhhConsPlot, fig.height=4}
 parDT <- parish_cons_perhhDT[name == parish, .(id, name, variable_n,  value)]
 laDT <- la_cons_perhhDT[name == la, .(id, name, variable_n,  value)]
 plotDT <- rbind(parDT, laDT)
@@ -296,17 +305,26 @@ plotDT <- rbind(parDT, laDT)
 p <- ggplot2::ggplot(plotDT, aes(x = reorder(variable_n, -value), 
                        y = value,
                        group = name,
-                       fill = name)) +
+                       fill = variable_n,
+                       alpha = name)) +
   geom_col(position = "dodge") +
-  labs(caption = "How do our per household consumption emissions compare with our district?",
-       x = "Emissions source",
+  scale_fill_manual(values = cse_cons_colours) +
+  guides(fill = "none") +
+  scale_alpha_discrete(name = "Area", range = c(0.8,0.4)) +
+  labs(x = "Emissions source",
        y = "T CO2e/household") +
   theme(legend.position="bottom") +
-  scale_fill_discrete(name = "Area") +
   coord_flip()
 
 p
+sum_p_perhh <- sum(parDT$value)
+sum_d_perhh <- sum(laDT$value)
 ```
+
+For comparison:
+
+ * `r parish` total per household consumption emissions = `r round(sum_p_perhh,1)` T CO2e
+ * `r la` total per household consumption emissions = `r round(sum_d_perhh,1)` T CO2e
 
 \newpage
 
