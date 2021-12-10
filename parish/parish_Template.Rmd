@@ -203,7 +203,7 @@ p
 
 ## How do our per household territorial emissions compare with our district?
 
-```{r parishLaPerhhTerrPlot, fig.height=4}
+```{r parishLaPerhhTerrPlot, fig.height=4, warning=FALSE}
 parDT <- parish_terr_perhhDT[name == parish]
 laDT <- la_terr_perhhDT[name == la]
 plotDT <- rbind(parDT, laDT)
@@ -297,7 +297,7 @@ p
 
 ## How do our per household consumption emissions compare with our district?
 
-```{r parishLaPerhhConsPlot, fig.height=4}
+```{r parishLaPerhhConsPlot, fig.height=4, warning=FALSE}
 parDT <- parish_cons_perhhDT[name == parish, .(id, name, variable_n,  value)]
 laDT <- la_cons_perhhDT[name == la, .(id, name, variable_n,  value)]
 plotDT <- rbind(parDT, laDT)
