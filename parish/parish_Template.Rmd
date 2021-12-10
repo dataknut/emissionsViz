@@ -216,7 +216,7 @@ p <- ggplot2::ggplot(plotDT, aes(x = reorder(variable, -value),
   geom_col(position = "dodge") +
   scale_fill_manual(values = cse_terr_colours) +
   guides(fill = "none") +
-  scale_alpha_discrete(name = "Area", range = c(0.8,0.4)) +
+  scale_alpha_discrete(name = "Area", range = c(0.8,0.5)) +
   labs(x = "Emissions source",
        y = "T CO2e/household") +
   theme(legend.position="bottom") +
@@ -310,7 +310,7 @@ p <- ggplot2::ggplot(plotDT, aes(x = reorder(variable_n, -value),
   geom_col(position = "dodge") +
   scale_fill_manual(values = cse_cons_colours) +
   guides(fill = "none") +
-  scale_alpha_discrete(name = "Area", range = c(0.8,0.4)) +
+  scale_alpha_discrete(name = "Area", range = c(0.8,0.5)) +
   labs(x = "Emissions source",
        y = "T CO2e/household") +
   theme(legend.position="bottom") +
