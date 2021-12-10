@@ -6,7 +6,13 @@ params:
 title: '`r params$title`'
 subtitle: '`r params$subtitle`'
 output:
-  pdf_document
+  pdf_document:
+  bookdown::html_document2:
+    code_folding: hide
+    number_sections: yes
+    toc: yes
+    toc_depth: 4
+    toc_float: TRUE
 linkcolor: blue
 bibliography: '`r  path.expand("~/bibliography.bib")`'
 #classoption: landscape
