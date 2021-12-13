@@ -1,8 +1,8 @@
-# emissionsViz
+# Visualising place-based greenhouse gas emissions
 
 Visualising GHG emissions for neighbourhoods, places and districts using various data sources.
 
-Borrows extensively from https://github.com/HCC-CCECF-DataGroup/hampshire-ghg-emissions
+Borrows extensively from & was inspired by https://github.com/HCC-CCECF-DataGroup/hampshire-ghg-emissions
 
 Examples:
 
