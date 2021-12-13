@@ -4,13 +4,16 @@ Visualising GHG emissions for neighbourhoods, places and districts using various
 
 Examples:
 
- * Hampshire
-   * [Botley](parish_Botley.pdf) (Eastleigh, Hampshire)
-   * [Hambledon](parish_Hambledon.pdf) (Winchester, Hampshire)
-   * [Micheldever](parish_Micheldever.pdf) (Winchester, Hampshire) - an excellent example of how a major road/motorway can produce 'interesting' territorial emissions estimates at the parish level
+ * Hampshire (County level emissions estimates)
+   * Eastleigh
+      * [Botley](parish_Botley.pdf) (Eastleigh, Hampshire)
+   * Winchester
+      * [Hambledon](parish_Hambledon.pdf) (Winchester, Hampshire)
+      * [Micheldever](parish_Micheldever.pdf) (Winchester, Hampshire) - an excellent example of how a major road/motorway can produce 'interesting' territorial emissions estimates at the parish level
  * Suffolk
-   * [Badingham](parish_Badingham.pdf) (East Suffolk)
-   * [Framlingham](parish_Framlingham.pdf) (East Suffolk)
+   * East Suffolk
+     * [Badingham](parish_Badingham.pdf) (East Suffolk)
+     * [Framlingham](parish_Framlingham.pdf) (East Suffolk)
 
 ## Background
 
