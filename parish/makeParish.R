@@ -17,7 +17,7 @@ makeReport <- function(p, title, subtitle, authors, la){
 }
 
 # Fails for parishes inside unitary authorities due to look-up table (see rmd)
-pList <- c("Botley", "Framlingham", "Badingham")
+pList <- c("Hambledon (Winchester)","Micheldever", "Botley", "Framlingham", "Badingham") # watch the names - this MUST EXACTLY match the parish name in the CSE data files
 
 for(p in pList){
   title <- p
