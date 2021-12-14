@@ -30,6 +30,17 @@ library(ggplot2)
 library(RColorBrewer)
 library(stringr)
 
+parish <- params$parish
+district <- params$district
+# for chunk by chunk testing
+if(params$parish == ""){
+  # not set in parameters
+  parish <- "Sway"
+}
+if(params$district == ""){
+  district <- "New Forest"
+}
+
 ```
 
 ```{r setTerrColours}
@@ -102,7 +113,7 @@ names(cse_cons_colours) <- cse_cons_catList # associate the names (in this order
 
 The graphs that follow show the estimated 2017/18 greenhouse gas emissions for:
 
- * **`r params$parish`** (Local Authority district: _`r params$district`_)
+ * **`r parish`** (Local Authority district: _`r district`_)
 
 The graphs show emissions estimated using two methods:
 
@@ -129,9 +140,9 @@ See the [CSE guidance on using the data](https://impact-tool.org.uk/using-the-to
 ## Which are our biggest territorial emissions sources?
 
 ```{r parishAbsoluteTerrPlot, fig.height=4}
-plotDT <- parish_terr_absDT[name == params$parish]
+plotDT <- parish_terr_absDT[name == parish]
 parish_terr_sum_kT <- sum(plotDT$value)/1000
-myCap <- paste0(params$parish, ": total territorial emissions = ", round(parish_terr_sum_kT,1), " kT CO2e")
+myCap <- paste0(parish, ": total territorial emissions = ", round(parish_terr_sum_kT,1), " kT CO2e")
 p <- ggplot2::ggplot(plotDT, aes(x = reorder(variable, -value), 
                        y = value,
                        fill = variable)) +
@@ -152,9 +163,11 @@ p
 t <- plotDT[order(-value)]
 t[, cumulative := cumsum(value)]
 
-pc_50 <- 0.5*(sum(t$value))
-pc_75 <- 0.75*(sum(t$value))
-pc_95 <- 0.95*(sum(t$value))
+grossTerrEm <- sum(t[value > 0, value])
+
+pc_50 <- 0.5*grossTerrEm
+pc_75 <- 0.75*grossTerrEm
+pc_95 <- 0.95*grossTerrEm
 
 p <- ggplot2::ggplot(t, aes(x = reorder(variable, -value), 
                        y = cumulative,
@@ -165,7 +178,7 @@ p <- ggplot2::ggplot(t, aes(x = reorder(variable, -value),
   theme(legend.position = "none") +
   labs(x = "Emissions source",
        y = "Cumulative T CO2e/annum",
-       caption = "Vertical lines = % of net emissions") +
+       caption = "Vertical lines = % of gross emissions") +
   coord_flip()
 
 # add reference lines
@@ -186,8 +199,8 @@ p
 ## How do our per household territorial emissions compare with our district?
 
 ```{r parishLaPerhhTerrPlot, fig.height=4, warning=FALSE}
-parDT <- parish_terr_perhhDT[name == params$parish]
-laDT <- la_terr_perhhDT[name == params$district]
+parDT <- parish_terr_perhhDT[name == parish]
+laDT <- la_terr_perhhDT[name == district]
 plotDT <- rbind(parDT, laDT)
 
 p <- ggplot2::ggplot(plotDT, aes(x = reorder(variable, -value), 
@@ -212,19 +225,19 @@ sum_d_perhh <- sum(laDT$value)
 
 For comparison:
 
- * `r params$parish` total per household territorial emissions = `r round(sum_p_perhh,1)` T CO2e
- * `r params$district` total per household territorial emissions = `r round(sum_d_perhh,1)` T CO2e
+ * `r parish` total per household territorial emissions = `r round(sum_p_perhh,1)` T CO2e
+ * `r district` total per household territorial emissions = `r round(sum_d_perhh,1)` T CO2e
  
 \newpage
 
 ## Which are our biggest consumption emissions sources?
 
 ```{r parishAbsoluteConsPlot, fig.height=4}
-plotDT <- parish_cons_absDT[name == params$parish]
+plotDT <- parish_cons_absDT[name == parish]
 parish_cons_sum_kT <- sum(plotDT$value)/1000
 pcDiff <- 100*parish_cons_sum_kT/parish_terr_sum_kT
 
-myCap <- paste0(params$parish, ": total consumption emissions = ", round(parish_cons_sum_kT,1), " kT CO2e, ",
+myCap <- paste0(parish, ": total consumption emissions = ", round(parish_cons_sum_kT,1), " kT CO2e, ",
                 round(pcDiff) , " % of our territorial emissions")
 
 p <- ggplot2::ggplot(plotDT, aes(x = reorder(variable_n, -value), 
@@ -247,9 +260,11 @@ p
 t <- plotDT[, .(variable_n, value)][order(-value)]
 t[, cumulative := cumsum(value)]
 
-pc_50 <- 0.5*(sum(t$value))
-pc_75 <- 0.75*(sum(t$value))
-pc_95 <- 0.95*(sum(t$value))
+grossConsEm <- sum(t[value > 0, value])
+
+pc_50 <- 0.5*grossConsEm
+pc_75 <- 0.75*grossConsEm
+pc_95 <- 0.95*grossConsEm
 
 p <- ggplot2::ggplot(t, aes(x = reorder(variable_n, -value), 
                        y = cumulative,
@@ -260,7 +275,7 @@ p <- ggplot2::ggplot(t, aes(x = reorder(variable_n, -value),
   theme(legend.position = "none") +
   labs(x = "Emissions source",
        y = "Cumulative T CO2e/annum",
-       caption = "Vertical lines = % of net emissions") +
+       caption = "Vertical lines = % of gross emissions") +
   coord_flip()
 
 # add reference lines
@@ -280,8 +295,8 @@ p
 ## How do our per household consumption emissions compare with our district?
 
 ```{r parishLaPerhhConsPlot, fig.height=4, warning=FALSE}
-parDT <- parish_cons_perhhDT[name == params$parish, .(id, name, variable_n,  value)]
-laDT <- la_cons_perhhDT[name == params$district, .(id, name, variable_n,  value)]
+parDT <- parish_cons_perhhDT[name == parish, .(id, name, variable_n,  value)]
+laDT <- la_cons_perhhDT[name == district, .(id, name, variable_n,  value)]
 plotDT <- rbind(parDT, laDT)
 
 p <- ggplot2::ggplot(plotDT, aes(x = reorder(variable_n, -value), 
@@ -305,8 +320,8 @@ sum_d_perhh <- sum(laDT$value)
 
 For comparison:
 
- * `r params$parish` total per household consumption emissions = `r round(sum_p_perhh,1)` T CO2e
- * `r params$district` total per household consumption emissions = `r round(sum_d_perhh,1)` T CO2e
+ * `r parish` total per household consumption emissions = `r round(sum_p_perhh,1)` T CO2e
+ * `r district` total per household consumption emissions = `r round(sum_d_perhh,1)` T CO2e
 
 \newpage
 
@@ -317,7 +332,7 @@ The parish data tables used to create the plots - if you need the numbers.
 ## Territorial emissions
 
 ```{r terrTable, warning=FALSE}
-makeFlexTable(parish_terr_absDT[name == params$parish], cap = "Parish territorial emissions")
+makeFlexTable(parish_terr_absDT[name == parish], cap = "Parish territorial emissions")
 ```
 
 \newpage
@@ -325,7 +340,7 @@ makeFlexTable(parish_terr_absDT[name == params$parish], cap = "Parish territoria
 ## Consumption emissions
 
 ```{r consTable, warning=FALSE}
-makeFlexTable(parish_cons_absDT[name == params$parish, .(id,parish, variable_n, value)], cap = "Parish consumption emissions")
+makeFlexTable(parish_cons_absDT[name == parish, .(id,parish, variable_n, value)], cap = "Parish consumption emissions")
 ```
 
 \newpage

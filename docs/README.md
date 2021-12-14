@@ -8,7 +8,7 @@ Examples:
    * Eastleigh
       * [Botley](parish_Botley.pdf) (Eastleigh, Hampshire).
    * Winchester
-      * [Hambledon](parish_Hambledon%20(Winchester).pdf) (Winchester, Hampshire) - a good example of a rural parish with a large share (~77%) of territorial emissions from road transport, agriculture and domestic heating oil. These are partially 'offset' by negative emissions (sequestration) from land use, land use change and forestry.
+      * [Hambledon](parish_Hambledon%20(Winchester).pdf) (Winchester, Hampshire) - a good example of a rural parish with a large share (~75%) of territorial emissions from road transport, agriculture and domestic heating oil. These are partially 'offset' by negative emissions (sequestration) from land use, land use change and forestry.
       * [Micheldever](parish_Micheldever.pdf) (Winchester, Hampshire) - a good example of how a _major road/motorway_ (M3) can dominate territorial emissions estimates at the parish level.
       * [Sway](parish_Sway.pdf) (New Forest, Hampshire) - a good example of how a _major waste management_ site (?) can dominate territorial emissions estimates at the parish level.
  * Suffolk
