@@ -20,4 +20,4 @@ Examples:
 
 Borrows extensively from & was inspired by:
 
- * work on visualising [Hampshire emissions](https://github.com/HCC-CCECF-DataGroup/hampshire-ghg-emissions).
+ * work on visualising [Hampshire emissions](https://hcc-ccecf-datagroup.github.io/hampshire-ghg-emissions/).
