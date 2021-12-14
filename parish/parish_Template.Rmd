@@ -361,7 +361,9 @@ Report last updated: `r Sys.time()`
 
 The code used to generate these graphs draws heavily on Dr [Tom Rushby](https://twitter.com/tom_rushby)'s [Local Authority Emissions](https://rushby.shinyapps.io/LAemissions/) explorer.
 
-This report was built using [Rmarkdown](https://rmarkdown.rstudio.com/) in [RStudio](https://www.rstudio.com/). The code is [available](https://github.com/dataknut/emissionsViz) for inspection and re-use.
+# Code
+
+This report was built using [Rmarkdown](https://rmarkdown.rstudio.com/) in [RStudio](https://www.rstudio.com/). The code is [available](https://github.com/dataknut/emissionsViz) for inspection and re-use. Changes to the code are [logged](https://github.com/dataknut/emissionsViz/commits/main) so you can see how older version of this report may have been updated (and when).
 
 R packages used:
 
