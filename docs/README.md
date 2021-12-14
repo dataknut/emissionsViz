@@ -9,7 +9,8 @@ Examples:
       * [Botley](parish_Botley.pdf) (Eastleigh, Hampshire)
    * Winchester
       * [Hambledon](parish_Hambledon%20(Winchester).pdf) (Winchester, Hampshire)
-      * [Micheldever](parish_Micheldever.pdf) (Winchester, Hampshire) - an excellent example of how a major road/motorway can produce 'interesting' territorial emissions estimates at the parish level
+      * [Micheldever](parish_Micheldever.pdf) (Winchester, Hampshire) - a good example of how a _major road/motorway_ (M3) can produce 'interesting' territorial emissions estimates at the parish level
+      * [Sway](parish_Sway.pdf) (New Forest, Hampshire) - a good example of how a _major waste management_ site (?) can produce 'interesting' territorial emissions estimates at the parish level
  * Suffolk
    * East Suffolk
      * [Badingham](parish_Badingham.pdf) (East Suffolk)
