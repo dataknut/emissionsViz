@@ -69,10 +69,13 @@ cse_terr_colours <- c(cse_terr_domestic_pal,
                       cse_terr_lulucf_pal,
                       cse_terr_other_pal)
 parish_terr_absDT[, variable := factor(variable)]
-cse_terr_catList <- unique(parish_terr_absDT$variable) # this is not alphabetical - why?
+cse_terr_catList <- unique(parish_terr_absDT[variable != "Power generation (t CO2e)"]$variable) # this is not alphabetical - why?
 # force into the same order as the colours
-cse_terr_catList2 <- c(cse_terr_catList[1:15], cse_terr_catList[17:18], 
-                       cse_terr_catList[20], cse_terr_catList[16],cse_terr_catList[19] )
+cse_terr_catList2 <- c(cse_terr_catList[1:15], 
+                       cse_terr_catList[17:18], 
+                       cse_terr_catList[20], 
+                       cse_terr_catList[16],
+                       cse_terr_catList[19] )
 
 names(cse_terr_colours) <- cse_terr_catList2 # associate the names (in this order) with the colours
 ```
@@ -145,7 +148,7 @@ See the [CSE guidance on using the data](https://impact-tool.org.uk/using-the-to
 ## Which are our biggest territorial emissions sources?
 
 ```{r parishAbsoluteTerrPlot, fig.height=4}
-plotDT <- parish_terr_absDT[name == parish]
+plotDT <- parish_terr_absDT[name == parish & variable != "Power generation (t CO2e)"]
 parish_terr_sum_kT <- sum(plotDT$value)/1000
 myCap <- paste0(parish, ": net territorial emissions = ", round(parish_terr_sum_kT,1), " kT CO2e")
 p <- ggplot2::ggplot(plotDT, aes(x = reorder(variable, -value), 
@@ -160,7 +163,22 @@ p <- ggplot2::ggplot(plotDT, aes(x = reorder(variable, -value),
   coord_flip()
 
 p
+
+pg <- parish_terr_absDT[name == parish & variable == "Power generation (t CO2e)"]
+
+text <- ""
+
+if(pg$value > 0){
+  text <- paste0("In addition an estimated ", 
+                 round(pg$value,2), 
+                 " t CO2e are emitted in ", 
+                 parish, 
+                 " due to power generation. This overlaps with the electricity emissions category above which proportionally allocates national power generation emissions to areas. However the level of these emissions in the parish may be of local interest."
+  )
+}
 ```
+
+`r text`
 
 ## Which big sources make up 50%, 75% or 95% of our territorial emissions?
 
@@ -204,7 +222,7 @@ p
 ## How do our per household territorial emissions compare with our district?
 
 ```{r parishLaPerhhTerrPlot, fig.height=4, warning=FALSE}
-parDT <- parish_terr_perhhDT[name == parish]
+parDT <- parish_terr_perhhDT[name == parish & variable != "Power generation (t CO2e)"]
 laDT <- la_terr_perhhDT[name == district]
 plotDT <- rbind(parDT, laDT)
 
