@@ -111,7 +111,7 @@ for(p in pList){
     labs(title = paste0("Science Based Target 4% model for ", 
                         p, " (", district,")"),
          y = "T Co2e",
-         caption = "Model: 4% of baseline value reduction per annum\2018 baseline data source: CSE Impact tool (https://impact-tool.org.uk/download, @cse_bristol)")
+         caption = "Model: 4% of baseline reduction per annum\n2018 baseline data source: CSE Impact tool (https://impact-tool.org.uk/download, @cse_bristol)")
   
   fname <- paste0("parish_", p, "_SBT_4pc_model.png")
   ggsave(filename = here::here("docs", "plots", fname),
