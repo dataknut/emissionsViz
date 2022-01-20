@@ -21,7 +21,7 @@ makeReport <- function(title, subtitle, parish, district){
                                   parish = parish,
                                   district = district),
                     #output_format ="all", # output all formats specified in the rmd
-                    output_file = paste0(here::here("docs/parish_"), parish)
+                    output_file = paste0(here::here("docs/parish_"), parish, version)
   )
 }
 
@@ -33,10 +33,15 @@ parish_namesDT <- dt[, .(name, id)] # extract parish names & codes for LA matchi
 # how many parishes?
 uniqueN(parish_namesDT$id)
 mdt <- melt(dt, id.vars = c("id", "name")) # melt
-parish_terr_absDT <- mdt[variable != "Power generation (t CO2e)"]
+
+# remove Power generation
+# Note: "this category overlaps with electricity emissions and is provided for information only."
+# In some circumstances this might be useful to look at?
+# Might identify point sources of interest?
+parish_terr_absDT <- mdt # [variable != "Power generation (t CO2e)"] 
 parish_terr_perhh <- path.expand("~/Dropbox/data/cse/cse_ImpactTool/2021-12-07/parish-all-territorial-per-household.csv")
 mdt <- melt(data.table::fread(parish_terr_perhh), id.vars = c("id", "name"))
-parish_terr_perhhDT <- mdt[variable != "Power generation (t CO2e)"]
+parish_terr_perhhDT <- mdt #[variable != "Power generation (t CO2e)"]
 
 #> consumption ----
 parish_cons_abs <- path.expand("~/Dropbox/data/cse/cse_ImpactTool/2021-12-07/parish-all-consumption-absolute.csv")
@@ -47,7 +52,7 @@ parish_cons_perhhDT <- melt(data.table::fread(parish_cons_perhh), id.vars = c("i
 # load district data ----
 la_terr_perhh <- path.expand("~/Dropbox/data/cse/cse_ImpactTool/local-authority-all-territorial-per-household.csv.gz")
 mdt <- melt(data.table::fread(la_terr_perhh), id.vars = c("id", "name"))
-la_terr_perhhDT <- mdt[variable != "Power generation (t CO2e)"]
+la_terr_perhhDT <- mdt #[variable != "Power generation (t CO2e)"]
 
 la_cons_perhh <- path.expand("~/Dropbox/data/cse/cse_ImpactTool/local-authority-all-consumption-per-household.csv.gz")
 la_cons_perhhDT <- melt(data.table::fread(la_cons_perhh), id.vars = c("id", "name"))
@@ -88,6 +93,8 @@ pList <- c("Botley", "Clanfield (East Hampshire)", "Hambledon (Winchester)",
            "Longnor (Staffordshire Moorlands)") # Staffordshire
 
 message("Parishes: ", pList)
+
+version <- "_v2"
 
 for(p in pList){
   # set params
