@@ -3,9 +3,15 @@
 # Packages ----
 library(data.table)
 library(here)
+library(rmarkdown)
 
 # Functions ----
 source(here::here("R", "functions.R"))
+
+# rmarkdown::render(input = here::here("rmd", f),
+#                   output_format ="all", # output all formats specified in the rmd
+#                   output_dir= here::here("docs")
+# )
 
 makeReport <- function(title, subtitle, parish, district){
   # default = whatever is set in yaml
@@ -14,6 +20,7 @@ makeReport <- function(title, subtitle, parish, district){
                                   subtitle = subtitle,
                                   parish = parish,
                                   district = district),
+                    #output_format ="all", # output all formats specified in the rmd
                     output_file = paste0(here::here("docs/parish_"), parish)
   )
 }
@@ -74,8 +81,13 @@ head(postcodeToParishWard_lut_DT[pcd7 %like% "PO13"])
 # set parish list ----
 # Fails for parishes inside unitary authorities due to look-up table (see above)
 # names MUST EXACTLY match the parish name in the CSE data files
-pList <- c("Botley", "Clanfield (East Hampshire)", "Hambledon (Winchester)", "Oakley (Basingstoke and Deane)", "Micheldever", "Sway", 
-           "Framlingham", "Badingham") 
+pList <- c("Botley", "Clanfield (East Hampshire)", "Hambledon (Winchester)", 
+           "Oakley (Basingstoke and Deane)", "Micheldever", "Sway", 
+           "Burley (New Forest)", "Cocking", # Hampshire
+           "Framlingham", "Badingham", # Suffolk
+           "Longnor (Staffordshire Moorlands)") # Staffordshire
+
+message("Parishes: ", pList)
 
 for(p in pList){
   # set params
