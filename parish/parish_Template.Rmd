@@ -14,6 +14,11 @@ output:
     toc: yes
     toc_depth: 4
     toc_float: TRUE
+  bookdown::word_document2:
+    code_folding: hide
+    number_sections: yes
+    toc: yes
+    toc_depth: 4
 linkcolor: blue
 bibliography: '`r  path.expand("~/bibliography.bib")`'
 #classoption: landscape
@@ -35,10 +40,10 @@ district <- params$district
 # for chunk by chunk testing
 if(params$parish == ""){
   # not set in parameters
-  parish <- "Sway"
+  parish <- "Hambledon (Winchester)"
 }
 if(params$district == ""){
-  district <- "New Forest"
+  district <- "Winchester"
 }
 
 ```
@@ -142,7 +147,7 @@ See the [CSE guidance on using the data](https://impact-tool.org.uk/using-the-to
 ```{r parishAbsoluteTerrPlot, fig.height=4}
 plotDT <- parish_terr_absDT[name == parish]
 parish_terr_sum_kT <- sum(plotDT$value)/1000
-myCap <- paste0(parish, ": total territorial emissions = ", round(parish_terr_sum_kT,1), " kT CO2e")
+myCap <- paste0(parish, ": net territorial emissions = ", round(parish_terr_sum_kT,1), " kT CO2e")
 p <- ggplot2::ggplot(plotDT, aes(x = reorder(variable, -value), 
                        y = value,
                        fill = variable)) +
@@ -210,6 +215,7 @@ p <- ggplot2::ggplot(plotDT, aes(x = reorder(variable, -value),
                        alpha = name)) +
   geom_col(position = "dodge") +
   scale_fill_manual(values = cse_terr_colours) +
+  guides(alpha=guide_legend(ncol=1)) +
   guides(fill = "none") +
   scale_alpha_discrete(name = "Area", range = c(0.8,0.5)) +
   labs(x = "Emissions source",
@@ -307,6 +313,7 @@ p <- ggplot2::ggplot(plotDT, aes(x = reorder(variable_n, -value),
   geom_col(position = "dodge") +
   scale_fill_manual(values = cse_cons_colours) +
   guides(fill = "none") +
+  guides(alpha=guide_legend(ncol=1)) +
   scale_alpha_discrete(name = "Area", range = c(0.8,0.5)) +
   labs(x = "Emissions source",
        y = "T CO2e/household") +
@@ -333,6 +340,10 @@ The parish data tables used to create the plots - if you need the numbers.
 
 ```{r terrTable, warning=FALSE}
 makeFlexTable(parish_terr_absDT[name == parish], cap = "Parish territorial emissions")
+
+# for data extraction if needed
+t <- parish_terr_absDT[name == parish]
+data.table::fwrite(t, file = here::here("parish", "data", paste0(parish, "_totalTerritorialEmissions_CSEImpactTool.csv")))
 ```
 
 \newpage
@@ -341,6 +352,10 @@ makeFlexTable(parish_terr_absDT[name == parish], cap = "Parish territorial emiss
 
 ```{r consTable, warning=FALSE}
 makeFlexTable(parish_cons_absDT[name == parish, .(id,parish, variable_n, value)], cap = "Parish consumption emissions")
+
+t <- parish_cons_absDT[name == parish]
+data.table::fwrite(t, file = here::here("parish", "data", paste0(parish, "_totalConsumptionEmissions_CSEImpactTool.csv")))
+
 ```
 
 \newpage
