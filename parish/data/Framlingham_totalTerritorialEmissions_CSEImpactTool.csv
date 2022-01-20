@@ -1,0 +1,21 @@
+id,name,variable,value
+E04009407,Framlingham,Housing - Mains gas (t CO2e),3355.018
+E04009407,Framlingham,Housing - Electricity (t CO2e),1686.412
+E04009407,Framlingham,Housing - Oil (t CO2e),1389.721
+E04009407,Framlingham,Housing - LPG (t CO2e),92.415
+E04009407,Framlingham,Housing - Biomass (t CO2e),30.294
+E04009407,Framlingham,Housing - Coal (t CO2e),62.741
+E04009407,Framlingham,Industrial and commercial - Electricity (t CO2e),1250.633084
+E04009407,Framlingham,Industrial and commercial - Mains gas (t CO2e),633.7532622
+E04009407,Framlingham,Industrial and commercial - Other Fuels (t CO2e),67.96088594
+E04009407,Framlingham,Industrial and commercial - Large industrial consumers (t CO2e),0.005524778
+E04009407,Framlingham,Agriculture - Fuel (t CO2e),283.395935
+E04009407,Framlingham,Agriculture - Livestock and crop-related emissions (t CO2e),1971.901526
+E04009407,Framlingham,Aviation (t CO2e),2206.846329
+E04009407,Framlingham,Shipping (t CO2e),878.9667796
+E04009407,Framlingham,Diesel fuelled railways (t CO2e),0
+E04009407,Framlingham,F-gases (t CO2e),421.5044088
+E04009407,Framlingham,Road Transport (t CO2e),2924.22467
+E04009407,Framlingham,Other Transport (t CO2e),172.2555564
+E04009407,Framlingham,Waste management (t CO2e),142.776247
+E04009407,Framlingham,"Land use, land-use change, and forestry (t CO2e)",-1326.785565

@@ -1,0 +1,21 @@
+id,name,variable,value
+E04004586,Sway,Housing - Mains gas (t CO2e),4337.358
+E04004586,Sway,Housing - Electricity (t CO2e),1839.677
+E04004586,Sway,Housing - Oil (t CO2e),888.818
+E04004586,Sway,Housing - LPG (t CO2e),205.291
+E04004586,Sway,Housing - Biomass (t CO2e),72.001
+E04004586,Sway,Housing - Coal (t CO2e),24.062
+E04004586,Sway,Industrial and commercial - Electricity (t CO2e),621.1338263
+E04004586,Sway,Industrial and commercial - Mains gas (t CO2e),274.3210815
+E04004586,Sway,Industrial and commercial - Other Fuels (t CO2e),272.248388
+E04004586,Sway,Industrial and commercial - Large industrial consumers (t CO2e),0.093605802
+E04004586,Sway,Agriculture - Fuel (t CO2e),430.5601752
+E04004586,Sway,Agriculture - Livestock and crop-related emissions (t CO2e),1479.493253
+E04004586,Sway,Aviation (t CO2e),2168.692838
+E04004586,Sway,Shipping (t CO2e),863.7705921
+E04004586,Sway,Diesel fuelled railways (t CO2e),224.6393926
+E04004586,Sway,F-gases (t CO2e),209.3424919
+E04004586,Sway,Road Transport (t CO2e),5066.375495
+E04004586,Sway,Other Transport (t CO2e),42.35679426
+E04004586,Sway,Waste management (t CO2e),11364.51031
+E04004586,Sway,"Land use, land-use change, and forestry (t CO2e)",-1989.463039
