@@ -14,11 +14,11 @@ Examples:
       * [Sway](parish_Sway_v2.pdf) - a good example of how a _major waste management_ site (?) can dominate territorial emissions estimates at the parish level.
  * Suffolk
    * East Suffolk
-     * [Badingham](parish_Badingham_v2.pdf) - strongly agricultural (arable), rural village, off-gas.
-     * [Framlingham](parish_Framlingham_v2.pdf) - agricultural (arable), rural town, on-gas.
+      * [Badingham](parish_Badingham_v2.pdf) - strongly agricultural (arable), rural village, off-gas.
+      * [Framlingham](parish_Framlingham_v2.pdf) - agricultural (arable), rural town, on-gas.
  * Staffordshire
-   *  Staffordshire Moorlands
-     * [Longnor](parish_Longnor (Staffordshire Moorlands)_v2.pdf) - strongly agricultural (dairy, sheep), off-gas
+   * Staffordshire Moorlands
+      * [Longnor](parish_Longnor (Staffordshire Moorlands)_v2.pdf) - strongly agricultural (dairy, sheep), off-gas
 
 ## Background
 
