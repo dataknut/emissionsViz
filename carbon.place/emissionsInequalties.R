@@ -10,8 +10,13 @@ dt <- data.table::fread(paste0(dp, "PBCC_LSOA_data.csv"))
 
 # we want emissions per capita for:
 # flying - flights_percap_2018
-# driving - car_percap_2018 + van_percap_2018 ?
-dt[, driving_percap_2018 := car_percap_2018 + van_percap_2018]
+# driving - car_percap_2018 
+
+# shold we add + van_percap_2018 ??
+summary(dt$van_percap_2018)
+# we have some stonkingly huge van emissions estimates - why?
+head(dt[van_percap_2018 > 40000, .(LSOA11, LSOA11NM, van_percap_2018, km_CarOrVan, car_percap_2018, pop_2018)])
+
 # domestic gas - gas_percap_2018
 # domestic elec - elec_percap_2018
 # other heat - other_heat_percap_2011
@@ -28,21 +33,20 @@ dt[, lsoa11code := LSOA11]
 
 setkey(imd, lsoa11code)
 
-mdt <- melt(dt[, .(lsoa11code, flights_percap_2018, car_percap_2018, van_percap_2018,driving_percap_2018,
-                   gas_percap_2018, elec_percap_2018, other_heat_percap_2011, nutrition_kgco2e_percap)])
+# select vars to plot here
+mdt <- melt(dt[, .(lsoa11code, flights_percap_2018, car_percap_2018,
+                   gas_percap_2018, elec_percap_2018, other_heat_percap_2011, 
+                   nutrition_kgco2e_percap)])
 setkey(mdt, lsoa11code)
 mdt <- mdt[imd[, .(lsoa11code, imdDecile)]]
 
-head(mdt)
+# checks
+summary(mdt)
 mdt[, .(meankgCO2e = mean(value, na.rm = TRUE),
         min = min(value, na.rm = TRUE),
         max = max(value, na.rm = TRUE)), keyby = .(variable)]
 
-# we have some stonkingly huge van emissions estimates - why?
-head(dt[van_percap_2018 > 130000])
-
-# leave them out
-ggplot2::ggplot(mdt[variable != "van_percap_2018" & variable != "driving_percap_2018"], 
+ggplot2::ggplot(mdt, 
                 aes(x = imdDecile, y = value/1000, color = variable, group = imdDecile)) +
   geom_boxplot() +
   facet_wrap(. ~ variable) +
