@@ -36,7 +36,9 @@ setkey(imd, lsoa11code)
 # select vars to plot here
 mdt <- melt(dt[, .(lsoa11code, flights_percap_2018, car_percap_2018,
                    gas_percap_2018, elec_percap_2018, other_heat_percap_2011, 
-                   nutrition_kgco2e_percap)])
+                   nutrition_kgco2e_percap, consumables_kgco2e_percap,
+                   recreation_kgco2e_percap,
+                   services_kgco2e_percap)])
 setkey(mdt, lsoa11code)
 mdt <- mdt[imd[, .(lsoa11code, imdDecile)]]
 
