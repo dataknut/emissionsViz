@@ -13,7 +13,10 @@ repoParams$login <- repoParams$info[[6]]
 repoParams$user <- repoParams$info[[7]]
 
 # Default data paths ----
-dPath <- "unknown - find this line in .Rprofile and fix it!"
+repoParams$jPath <- "can't find J: - fix .Rprofile!"
+repoParams$dbPath <- "can't find Dropbox: - fix .Rprofile!"
+repoParams$spPath <- "can't find Teams/Sharepoint folders: - fix .Rprofile!"
+
 if (repoParams$sysname == "Darwin") {
   # we're on a Mac (local) so we can set the data path to the Resource drive (if mounted)
   repoParams$jPath <- path.expand("/Volumes/Resource/CivilEnvResearch/Public/SERG/data/")
