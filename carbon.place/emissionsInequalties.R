@@ -5,7 +5,7 @@ libs <- c("data.table", "ggplot2", "here")
 dkUtils::loadLibraries(libs)
 
 # https://www.carbon.place/data/
-dp <- path.expand("~/Dropbox/data/CREDS/carbon.place/PBCC_LSOA_data/")
+dp <- paste0(repoParams$dbPath, "CREDS/carbon.place/PBCC_LSOA_data/")
 
 dt <- data.table::fread(paste0(dp, "PBCC_LSOA_data.csv"))
 
@@ -26,7 +26,9 @@ head(dt[van_percap_2018 > 40000, .(LSOA11, LSOA11NM, van_percap_2018, km_CarOrVa
 # nutrition_kgco2e_percap
 
 # and we need the IMD deciles
-imd <- data.table::fread("~/Dropbox/data/EW_IMD/2019/Indices_of_Multiple_Deprivation_(IMD)_2019_BA.csv")
+imd <- data.table::fread(paste0(repoParams$dbPath,
+                                "EW_IMD/2019/Indices_of_Multiple_Deprivation_(IMD)_2019_BA.csv")
+                         )
 imd[, lsoa11code := `LSOA code (2011)`]
 imd[, imdDecile := `Index of Multiple Deprivation (IMD) Decile`]
 setkey(imd, lsoa11code)
@@ -39,7 +41,8 @@ mdt <- melt(dt[, .(lsoa11code, flights_percap_2018, car_percap_2018,
                    gas_percap_2018, elec_percap_2018, other_heat_percap_2011, 
                    nutrition_kgco2e_percap, consumables_kgco2e_percap,
                    recreation_kgco2e_percap,
-                   services_kgco2e_percap)])
+                   services_kgco2e_percap,
+                   total_kgco2e_percap)])
 setkey(mdt, lsoa11code)
 mdt <- mdt[imd[, .(lsoa11code, imdDecile)]]
 
