@@ -1,9 +1,10 @@
 # attempt to replicate some of the plots in https://www.creds.ac.uk/publications/curbing-excess-high-energy-consumption-and-the-fair-energy-transition/
-library(dkutils)
+library(dkUtils) # https://github.com/dataknut/dkUtils
 libs <- c("data.table", "ggplot2", "here")
 
 dkUtils::loadLibraries(libs)
 
+# https://www.carbon.place/data/
 dp <- path.expand("~/Dropbox/data/CREDS/carbon.place/PBCC_LSOA_data/")
 
 dt <- data.table::fread(paste0(dp, "PBCC_LSOA_data.csv"))
@@ -59,3 +60,26 @@ ggplot2::ggplot(mdt,
 
 ggplot2::ggsave(filename = here::here("carbon.place", "plots", "selectedPerCapitaEmissionsByIMDdecile_LSOA.png"),
                 width = 10)
+
+library(ineq)
+ineq::Gini(dt$gas_percap_2018)
+plot(ineq::Lc(dt$gas_percap_2018))
+ineq::Gini(dt$elec_percap_2018)
+plot(ineq::Lc(dt$elec_percap_2018))
+ineq::Gini(dt$total_kgco2e_percap)
+plot(ineq::Lc(dt$total_kgco2e_percap))
+ineq::Gini(dt$flights_percap_2018)
+plot(ineq::Lc(dt$flights_percap_2018))
+ineq::Gini(dt$other_heat_percap_2011)
+plot(ineq::Lc(dt$other_heat_percap_2011))
+
+mdt[, .(gini = ineq::Gini(value)), keyby = .(variable)]
+
+ggplot2::ggplot(mdt[variable == "other_heat_percap_2011", .(variable, value, imdDecile)], 
+                aes(x = imdDecile, y = value/1000, color = variable, group = imdDecile)) +
+  geom_boxplot() +
+  facet_wrap(. ~ variable) +
+  scale_color_viridis_d() +
+  labs(y = "Annual T CO2e/capita",
+       x = "IMD decile 2019",
+       caption = "CREDS carbon.place data (English LSOAs)")
