@@ -20,6 +20,14 @@ Examples:
    * Staffordshire Moorlands
       * [Longnor](parish_Longnor (Staffordshire Moorlands)_v2.pdf) - strongly agricultural (dairy, sheep), off-gas
 
+## Data
+
+Data sources include:
+
+ * CSE/Uni Exeter 'impact' tool [parish level](https://impact-tool.org.uk/download) emissions estimates
+ * CREDS [carbon.place](https://www.carbon.place/data/) LSOA level emissions estimates for England
+
+
 ## Background
 
 Borrows extensively from & was inspired by:
