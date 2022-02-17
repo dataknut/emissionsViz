@@ -357,22 +357,30 @@ The parish data tables used to create the plots - if you need the numbers.
 ## Territorial emissions
 
 ```{r terrTable, warning=FALSE}
-makeFlexTable(parish_terr_absDT[name == parish], cap = "Parish territorial emissions")
+
+t <- parish_terr_absDT[name == parish]
+gross <- sum(t[value > 0, .(value)]) # gross emissions
+t[value >= 0, `%` := 100*value/gross]
+makeFlexTable(t[, .(Source = variable, 
+                    T_CO2e = value, `%`)][order(-T_CO2e)], cap = "Parish territorial emissions")
 
 # for data extraction if needed
-t <- parish_terr_absDT[name == parish]
-data.table::fwrite(t, file = here::here("parish", "data", paste0(parish, "_totalTerritorialEmissions_CSEImpactTool.csv")))
+data.table::fwrite(t, file = here::here("outputData", "parish", paste0(parish, "_totalTerritorialEmissions_CSEImpactTool.csv")))
 ```
+
+% = percent of gross emissions
 
 \newpage
 
 ## Consumption emissions
 
 ```{r consTable, warning=FALSE}
-makeFlexTable(parish_cons_absDT[name == parish, .(id,parish, variable_n, value)], cap = "Parish consumption emissions")
-
 t <- parish_cons_absDT[name == parish]
-data.table::fwrite(t, file = here::here("parish", "data", paste0(parish, "_totalConsumptionEmissions_CSEImpactTool.csv")))
+gross <- sum(t[value > 0, .(value)])
+t[value >= 0, `%` := 100*value/gross]
+makeFlexTable(t[, .(Source = variable_n, 
+                    T_CO2e = value, `%`)][order(-T_CO2e)], cap = "Parish consumption emissions")
+data.table::fwrite(t, file = here::here("outputData", "parish", paste0(parish, "_totalConsumptionEmissions_CSEImpactTool.csv")))
 
 ```
 

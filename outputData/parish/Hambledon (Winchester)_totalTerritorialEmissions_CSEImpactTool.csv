@@ -1,0 +1,22 @@
+id,name,variable,value,%
+E04004667,Hambledon (Winchester),Housing - Mains gas (t CO2e),0,0
+E04004667,Hambledon (Winchester),Housing - Electricity (t CO2e),667.482,5.42477015182318
+E04004667,Hambledon (Winchester),Housing - Oil (t CO2e),1946.438,15.8191213617362
+E04004667,Hambledon (Winchester),Housing - LPG (t CO2e),400.63,3.25600640305644
+E04004667,Hambledon (Winchester),Housing - Biomass (t CO2e),50.365,0.409327215859865
+E04004667,Hambledon (Winchester),Housing - Coal (t CO2e),10.204,0.0829301084212065
+E04004667,Hambledon (Winchester),Industrial and commercial - Electricity (t CO2e),658.1639001,5.34903994455283
+E04004667,Hambledon (Winchester),Industrial and commercial - Mains gas (t CO2e),346.9895112,2.82005858338274
+E04004667,Hambledon (Winchester),Industrial and commercial - Other Fuels (t CO2e),418.1920477,3.39873695184706
+E04004667,Hambledon (Winchester),Industrial and commercial - Large industrial consumers (t CO2e),0,0
+E04004667,Hambledon (Winchester),Power generation (t CO2e),0.287777472,0.00233882957214237
+E04004667,Hambledon (Winchester),Agriculture - Fuel (t CO2e),792.5166399,6.44095363313576
+E04004667,Hambledon (Winchester),Agriculture - Livestock and crop-related emissions (t CO2e),2566.192527,20.8560000483928
+E04004667,Hambledon (Winchester),Aviation (t CO2e),589.2594615,4.78903871329055
+E04004667,Hambledon (Winchester),Shipping (t CO2e),234.696673,1.90743047216645
+E04004667,Hambledon (Winchester),Diesel fuelled railways (t CO2e),0,0
+E04004667,Hambledon (Winchester),F-gases (t CO2e),221.8228425,1.80280207554148
+E04004667,Hambledon (Winchester),Road Transport (t CO2e),3143.449301,25.5474903320752
+E04004667,Hambledon (Winchester),Other Transport (t CO2e),88.39114761,0.718373917559013
+E04004667,Hambledon (Winchester),Waste management (t CO2e),169.2561534,1.37558125758706
+E04004667,Hambledon (Winchester),"Land use, land-use change, and forestry (t CO2e)",-1657.98015,

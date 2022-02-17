@@ -1,0 +1,22 @@
+id,name,variable,value,%
+E04004586,Sway,Housing - Mains gas (t CO2e),4337.358,14.2747029443113
+E04004586,Sway,Housing - Electricity (t CO2e),1839.677,6.05457116716716
+E04004586,Sway,Housing - Oil (t CO2e),888.818,2.92519384416894
+E04004586,Sway,Housing - LPG (t CO2e),205.291,0.675634347485408
+E04004586,Sway,Housing - Biomass (t CO2e),72.001,0.236962890011237
+E04004586,Sway,Housing - Coal (t CO2e),24.062,0.0791905815120677
+E04004586,Sway,Industrial and commercial - Electricity (t CO2e),621.1338263,2.04421697703901
+E04004586,Sway,Industrial and commercial - Mains gas (t CO2e),274.3210815,0.902819631161346
+E04004586,Sway,Industrial and commercial - Other Fuels (t CO2e),272.248388,0.895998178100034
+E04004586,Sway,Industrial and commercial - Large industrial consumers (t CO2e),0.093605802,0.000308066573571751
+E04004586,Sway,Power generation (t CO2e),0.181272294,0.000596586251096604
+E04004586,Sway,Agriculture - Fuel (t CO2e),430.5601752,1.41701897805776
+E04004586,Sway,Agriculture - Livestock and crop-related emissions (t CO2e),1479.493253,4.86916844186895
+E04004586,Sway,Aviation (t CO2e),2168.692838,7.13739701447412
+E04004586,Sway,Shipping (t CO2e),863.7705921,2.84276018125767
+E04004586,Sway,Diesel fuelled railways (t CO2e),224.6393926,0.739311949568268
+E04004586,Sway,F-gases (t CO2e),209.3424919,0.688968234924209
+E04004586,Sway,Road Transport (t CO2e),5066.375495,16.6739764611229
+E04004586,Sway,Other Transport (t CO2e),42.35679426,0.139400680260843
+E04004586,Sway,Waste management (t CO2e),11364.51031,37.4018028446841
+E04004586,Sway,"Land use, land-use change, and forestry (t CO2e)",-1989.463039,

@@ -15,7 +15,7 @@ source(here::here("R", "functions.R"))
 
 makeReport <- function(title, subtitle, parish, district){
   # default = whatever is set in yaml
-  rmarkdown::render(input = here::here("parish", "parish_Template.Rmd"),
+  rmarkdown::render(input = here::here("rmd","parish", "parish_Template.Rmd"),
                     params = list(title = title,
                                   subtitle = subtitle,
                                   parish = parish,

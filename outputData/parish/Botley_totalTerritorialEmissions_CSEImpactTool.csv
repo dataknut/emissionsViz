@@ -1,0 +1,22 @@
+id,name,variable,value,%
+E04004529,Botley,Housing - Mains gas (t CO2e),5340.019,17.8085867991231
+E04004529,Botley,Housing - Electricity (t CO2e),2291.779,7.64292135400781
+E04004529,Botley,Housing - Oil (t CO2e),365.239,1.21804630918446
+E04004529,Botley,Housing - LPG (t CO2e),109.959,0.366705510943832
+E04004529,Botley,Housing - Biomass (t CO2e),17.585,0.0586447349461826
+E04004529,Botley,Housing - Coal (t CO2e),48.193,0.160720256540311
+E04004529,Botley,Industrial and commercial - Electricity (t CO2e),3527.045094,11.7624466693696
+E04004529,Botley,Industrial and commercial - Mains gas (t CO2e),1447.18276,4.82625245259511
+E04004529,Botley,Industrial and commercial - Other Fuels (t CO2e),548.5023161,1.82921654506976
+E04004529,Botley,Industrial and commercial - Large industrial consumers (t CO2e),0,0
+E04004529,Botley,Power generation (t CO2e),0.152181497,0.000507514561005305
+E04004529,Botley,Agriculture - Fuel (t CO2e),417.8067212,1.39335595243148
+E04004529,Botley,Agriculture - Livestock and crop-related emissions (t CO2e),912.8588928,3.04432003477519
+E04004529,Botley,Aviation (t CO2e),2997.168628,9.99534602093112
+E04004529,Botley,Shipping (t CO2e),1193.744948,3.98105522142761
+E04004529,Botley,Diesel fuelled railways (t CO2e),460.4718429,1.53564112465458
+E04004529,Botley,F-gases (t CO2e),1188.729993,3.96433070014572
+E04004529,Botley,Road Transport (t CO2e),8279.652369,27.6120567885435
+E04004529,Botley,Other Transport (t CO2e),781.5691245,2.60647791574765
+E04004529,Botley,Waste management (t CO2e),57.98266381,0.193368095002051
+E04004529,Botley,"Land use, land-use change, and forestry (t CO2e)",-587.5630188,

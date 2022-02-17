@@ -1,0 +1,22 @@
+id,name,variable,value,%
+E04004561,Burley (New Forest),Housing - Mains gas (t CO2e),2319.988,7.80241463316448
+E04004561,Burley (New Forest),Housing - Electricity (t CO2e),961.373,3.23321963869177
+E04004561,Burley (New Forest),Housing - Oil (t CO2e),593.409,1.99570991964247
+E04004561,Burley (New Forest),Housing - LPG (t CO2e),8,0.0269050172092769
+E04004561,Burley (New Forest),Housing - Biomass (t CO2e),39.467,0.132732539274816
+E04004561,Burley (New Forest),Housing - Coal (t CO2e),14.065,0.0473023833810599
+E04004561,Burley (New Forest),Industrial and commercial - Electricity (t CO2e),1135.930195,3.82027768062653
+E04004561,Burley (New Forest),Industrial and commercial - Mains gas (t CO2e),501.8053643,1.68763524527487
+E04004561,Burley (New Forest),Industrial and commercial - Other Fuels (t CO2e),435.5278512,1.46473554145692
+E04004561,Burley (New Forest),Industrial and commercial - Large industrial consumers (t CO2e),0.040162133,0.000135070359940783
+E04004561,Burley (New Forest),Power generation (t CO2e),2.366956305,0.00796037501495392
+E04004561,Burley (New Forest),Agriculture - Fuel (t CO2e),161.2143537,0.542184370085118
+E04004561,Burley (New Forest),Agriculture - Livestock and crop-related emissions (t CO2e),553.965653,1.86305692841416
+E04004561,Burley (New Forest),Aviation (t CO2e),821.8140692,2.76386520933148
+E04004561,Burley (New Forest),Shipping (t CO2e),327.3210538,1.10082232318095
+E04004561,Burley (New Forest),Diesel fuelled railways (t CO2e),0,0
+E04004561,Burley (New Forest),F-gases (t CO2e),382.8457694,1.28755900177573
+E04004561,Burley (New Forest),Road Transport (t CO2e),21095.69823,70.9475154899827
+E04004561,Burley (New Forest),Other Transport (t CO2e),146.3623523,0.492235200927718
+E04004561,Burley (New Forest),Waste management (t CO2e),233.0371101,0.783733432205081
+E04004561,Burley (New Forest),"Land use, land-use change, and forestry (t CO2e)",-6874.516716,
