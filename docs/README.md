@@ -20,6 +20,10 @@ Examples:
    * Staffordshire Moorlands
       * [Longnor](parish_Longnor (Staffordshire Moorlands)_v2.pdf) - strongly agricultural (dairy, sheep), off-gas
 
+## Code
+
+See [https://github.com/dataknut/emissionsViz](https://github.com/dataknut/emissionsViz).
+
 ## Data
 
 Data sources include:
@@ -38,4 +42,4 @@ Borrows extensively from & was inspired by:
 
 Try:
 
-  * https://www.climateemergency.uk/ and their associated [data store](https://data.climateemergency.uk/)
+  * [https://www.climateemergency.uk/](https://www.climateemergency.uk/) and their associated [data store](https://data.climateemergency.uk/)
