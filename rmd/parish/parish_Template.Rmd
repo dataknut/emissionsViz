@@ -169,7 +169,7 @@ pg <- parish_terr_absDT[name == parish & variable == "Power generation (t CO2e)"
 text <- ""
 
 if(pg$value > 0){
-  text <- paste0("In addition an estimated ", 
+  terrPgText <- paste0("In addition an estimated ", 
                  round(pg$value,2), 
                  " t CO2e are emitted in ", 
                  parish, 
@@ -178,7 +178,7 @@ if(pg$value > 0){
 }
 ```
 
-`r text`
+`r terrPgText`
 
 ## Which big sources make up 50%, 75% or 95% of our territorial emissions?
 
@@ -361,7 +361,8 @@ The parish data tables used to create the plots - if you need the numbers.
 t <- parish_terr_absDT[name == parish]
 gross <- sum(t[value > 0, .(value)]) # gross emissions
 t[value >= 0, `%` := 100*value/gross]
-makeFlexTable(t[, .(Source = variable, 
+# Leave out power generation - see data guidance (it's included in the electricity usage emissions)
+makeFlexTable(t[variable != "Power generation (t CO2e)", .(Source = variable, 
                     T_CO2e = value, `%`)][order(-T_CO2e)], cap = "Parish territorial emissions")
 
 # for data extraction if needed
@@ -369,6 +370,8 @@ data.table::fwrite(t, file = here::here("outputData", "parish", paste0(parish, "
 ```
 
 % = percent of gross emissions
+
+`r terrPgText`
 
 \newpage
 
