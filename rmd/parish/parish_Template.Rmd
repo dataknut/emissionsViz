@@ -169,7 +169,7 @@ pg <- parish_terr_absDT[name == parish & variable == "Power generation (t CO2e)"
 text <- ""
 
 if(pg$value > 0){
-  text <- paste0("In addition an estimated ", 
+  terrPgText <- paste0("In addition an estimated ", 
                  round(pg$value,2), 
                  " t CO2e are emitted in ", 
                  parish, 
@@ -178,7 +178,7 @@ if(pg$value > 0){
 }
 ```
 
-`r text`
+`r terrPgText`
 
 ## Which big sources make up 50%, 75% or 95% of our territorial emissions?
 
@@ -357,22 +357,33 @@ The parish data tables used to create the plots - if you need the numbers.
 ## Territorial emissions
 
 ```{r terrTable, warning=FALSE}
-makeFlexTable(parish_terr_absDT[name == parish], cap = "Parish territorial emissions")
+
+t <- parish_terr_absDT[name == parish]
+gross <- sum(t[value > 0, .(value)]) # gross emissions
+t[value >= 0, `%` := 100*value/gross]
+# Leave out power generation - see data guidance (it's included in the electricity usage emissions)
+makeFlexTable(t[variable != "Power generation (t CO2e)", .(Source = variable, 
+                    T_CO2e = value, `%`)][order(-T_CO2e)], cap = "Parish territorial emissions")
 
 # for data extraction if needed
-t <- parish_terr_absDT[name == parish]
-data.table::fwrite(t, file = here::here("parish", "data", paste0(parish, "_totalTerritorialEmissions_CSEImpactTool.csv")))
+data.table::fwrite(t, file = here::here("outputData", "parish", paste0(parish, "_totalTerritorialEmissions_CSEImpactTool.csv")))
 ```
+
+% = percent of gross emissions
+
+`r terrPgText`
 
 \newpage
 
 ## Consumption emissions
 
 ```{r consTable, warning=FALSE}
-makeFlexTable(parish_cons_absDT[name == parish, .(id,parish, variable_n, value)], cap = "Parish consumption emissions")
-
 t <- parish_cons_absDT[name == parish]
-data.table::fwrite(t, file = here::here("parish", "data", paste0(parish, "_totalConsumptionEmissions_CSEImpactTool.csv")))
+gross <- sum(t[value > 0, .(value)])
+t[value >= 0, `%` := 100*value/gross]
+makeFlexTable(t[, .(Source = variable_n, 
+                    T_CO2e = value, `%`)][order(-T_CO2e)], cap = "Parish consumption emissions")
+data.table::fwrite(t, file = here::here("outputData", "parish", paste0(parish, "_totalConsumptionEmissions_CSEImpactTool.csv")))
 
 ```
 

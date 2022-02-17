@@ -1,0 +1,22 @@
+id,name,variable,value,%
+E04009890,Cocking,Housing - Mains gas (t CO2e),19.123,0.183336729496909
+E04009890,Cocking,Housing - Electricity (t CO2e),336.849,3.22945113184668
+E04009890,Cocking,Housing - Oil (t CO2e),986.753,9.46023468290869
+E04009890,Cocking,Housing - LPG (t CO2e),109.315,1.0480287917667
+E04009890,Cocking,Housing - Biomass (t CO2e),12.956,0.124212240096321
+E04009890,Cocking,Housing - Coal (t CO2e),5.964,0.0571782803283775
+E04009890,Cocking,Industrial and commercial - Electricity (t CO2e),1089.258364,10.4429778817609
+E04009890,Cocking,Industrial and commercial - Mains gas (t CO2e),1328.013341,12.7319783855673
+E04009890,Cocking,Industrial and commercial - Other Fuels (t CO2e),1305.625799,12.5173437188437
+E04009890,Cocking,Industrial and commercial - Large industrial consumers (t CO2e),4.713943474,0.0451936923890841
+E04009890,Cocking,Power generation (t CO2e),0.450786447,0.00432179641763905
+E04009890,Cocking,Agriculture - Fuel (t CO2e),200.2468145,1.91981363084266
+E04009890,Cocking,Agriculture - Livestock and crop-related emissions (t CO2e),784.5510281,7.52167649507353
+E04009890,Cocking,Aviation (t CO2e),264.0463774,2.53147514867031
+E04009890,Cocking,Shipping (t CO2e),105.1672656,1.00826347985341
+E04009890,Cocking,Diesel fuelled railways (t CO2e),0,0
+E04009890,Cocking,F-gases (t CO2e),367.1158301,3.51962639947062
+E04009890,Cocking,Road Transport (t CO2e),2694.001374,25.8280291360842
+E04009890,Cocking,Other Transport (t CO2e),21.25092658,0.203737665531356
+E04009890,Cocking,Waste management (t CO2e),795.1322018,7.62312071305171
+E04009890,Cocking,"Land use, land-use change, and forestry (t CO2e)",-1577.365933,

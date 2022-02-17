@@ -1,0 +1,22 @@
+id,name,variable,value,%
+E04009368,Badingham,Housing - Mains gas (t CO2e),0,0
+E04009368,Badingham,Housing - Electricity (t CO2e),280.278,3.9465054955131
+E04009368,Badingham,Housing - Oil (t CO2e),1510.011,21.2619852781354
+E04009368,Badingham,Housing - LPG (t CO2e),58.507,0.823818483883805
+E04009368,Badingham,Housing - Biomass (t CO2e),13.828,0.194707675921604
+E04009368,Badingham,Housing - Coal (t CO2e),10.411,0.146593984236319
+E04009368,Badingham,Industrial and commercial - Electricity (t CO2e),855.9430227,12.0522618362185
+E04009368,Badingham,Industrial and commercial - Mains gas (t CO2e),433.7456684,6.10743498953041
+E04009368,Badingham,Industrial and commercial - Other Fuels (t CO2e),46.51295963,0.654934211006123
+E04009368,Badingham,Industrial and commercial - Large industrial consumers (t CO2e),0.000701674,9.88004872683073e-06
+E04009368,Badingham,Power generation (t CO2e),0.053649383,0.000755419921793317
+E04009368,Badingham,Agriculture - Fuel (t CO2e),157.9599615,2.22418404630684
+E04009368,Badingham,Agriculture - Livestock and crop-related emissions (t CO2e),1099.103589,15.4761285371191
+E04009368,Badingham,Aviation (t CO2e),293.7213143,4.13579653427769
+E04009368,Badingham,Shipping (t CO2e),116.9865225,1.64725006581757
+E04009368,Badingham,Diesel fuelled railways (t CO2e),0,0
+E04009368,Badingham,F-gases (t CO2e),288.4809001,4.06200792639885
+E04009368,Badingham,Road Transport (t CO2e),1721.551069,24.2406137999235
+E04009368,Badingham,Other Transport (t CO2e),118.0207072,1.66181209209836
+E04009368,Badingham,Waste management (t CO2e),96.81347161,1.36319974364227
+E04009368,Badingham,"Land use, land-use change, and forestry (t CO2e)",-909.0456879,
