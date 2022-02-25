@@ -52,7 +52,35 @@ mdt[, .(meankgCO2e = mean(value, na.rm = TRUE),
         min = min(value, na.rm = TRUE),
         max = max(value, na.rm = TRUE)), keyby = .(variable)]
 
-ggplot2::ggplot(mdt, 
+ggplot2::ggplot(mdt[variable == "car_percap_2018" |
+                      variable == "gas_percap_2018" |
+                      variable == "elec_percap_2018"],
+                aes(x = imdDecile, y = value/1000, color = variable, group = imdDecile)) +
+  geom_boxplot() +
+  facet_wrap(. ~ variable, scales = "free") +
+  scale_color_viridis_d() +
+  labs(y = "Annual T CO2e/capita",
+       x = "IMD decile 2019",
+       caption = "CREDS carbon.place data (English LSOAs)")
+
+ggplot2::ggsave(filename = here::here("carbon.place", "plots", "measuredPerCapitaEmissionsByIMDdecile_LSOA.png"),
+                width = 10)
+
+ggplot2::ggplot(mdt[variable != "car_percap_2018" &
+                      variable != "gas_percap_2018" &
+                      variable != "elec_percap_2018"],
+                aes(x = imdDecile, y = value/1000, color = variable, group = imdDecile)) +
+  geom_boxplot() +
+  facet_wrap(. ~ variable, scales = "free") +
+  scale_color_viridis_d() +
+  labs(y = "Annual T CO2e/capita",
+       x = "IMD decile 2019",
+       caption = "CREDS carbon.place data (English LSOAs)")
+
+ggplot2::ggsave(filename = here::here("carbon.place", "plots", "modelledPerCapitaEmissionsByIMDdecile_LSOA.png"),
+                width = 10)
+
+ggplot2::ggplot(mdt[variable == "total_kgco2e_percap"], 
                 aes(x = imdDecile, y = value/1000, color = variable, group = imdDecile)) +
   geom_boxplot() +
   facet_wrap(. ~ variable) +
@@ -61,8 +89,9 @@ ggplot2::ggplot(mdt,
        x = "IMD decile 2019",
        caption = "CREDS carbon.place data (English LSOAs)")
 
-ggplot2::ggsave(filename = here::here("carbon.place", "plots", "selectedPerCapitaEmissionsByIMDdecile_LSOA.png"),
+ggplot2::ggsave(filename = here::here("carbon.place", "plots", "total_kgco2e_percapByIMDdecile_LSOA.png"),
                 width = 10)
+
 
 library(ineq)
 ineq::Gini(dt$gas_percap_2018)
