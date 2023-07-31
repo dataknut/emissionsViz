@@ -168,7 +168,7 @@ p <- ggplot2::ggplot(plotDT, aes(x = `Calendar Year`,
   geom_col(position = "stack") +
   scale_fill_manual(values = beis_emissions_colours) +
   theme(legend.position = "bottom", ) +
-  guides(colour=guide_legend(ncol=3)) +
+  guides(fill=guide_legend(ncol=3)) +
   theme(legend.title = element_blank()) +
   labs(title = rmdParams$district,
        x = "Year ",
@@ -287,6 +287,17 @@ p <- p +
   annotate("text", x = "LULUCF Net Emissions: Indirect N2O", y = pc_95-1.4, label = "95%", colour = "grey")
 
 p
+
+absTotal <- sum(t[, abs(`Total kT CO2e`)])
+  
+  t[, `% of gross` := 100*(`Total kT CO2e`/absTotal)]
+  
+makeFlexTable(t[, .(Source = subSectorLabel, 
+                           `Total kT CO2e`, `% of gross`)], 
+                cap = paste0("CO2e emissions sorted by magnitude (", rmdParams$district, 
+                ", ", max(t$`Calendar Year`))
+  )
+  
 ```
 
 \newpage
