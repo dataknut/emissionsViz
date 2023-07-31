@@ -1,0 +1,381 @@
+---
+params:
+  title: ""
+  subtitle: ""
+  district: ""
+title: '`r params$title`'
+subtitle: '`r params$subtitle`'
+output:
+  bookdown::html_document2:
+    code_folding: hide
+    number_sections: yes
+    toc: yes
+    toc_depth: 4
+    toc_float: TRUE
+  bookdown::word_document2:
+    code_folding: hide
+    number_sections: yes
+    toc: yes
+    toc_depth: 4
+  pdf_document:
+linkcolor: blue
+bibliography: '`r  path.expand("~/bibliography.bib")`'
+#classoption: landscape
+---
+
+```{r setup, include=FALSE}
+#![logo](uos-logo.png)
+
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(fig.width=7)
+
+
+library(ggplot2)
+library(RColorBrewer)
+library(stringr)
+
+rmdParams <- list()
+
+rmdParams$district <- params$district
+# for chunk by chunk testing
+if(params$district == ""){
+  rmdParams$district <- "East Suffolk"
+}
+
+```
+
+```{r loadData}
+# load the data here so we can easily re-run Rmd chunks ----
+#> BEIS/DESNZ latest ----
+#> # source: https://www.gov.uk/government/statistics/uk-local-authority-and-regional-greenhouse-gas-emissions-national-statistics-2005-to-2021
+#> # first version to include all CO2, CH4 & NO back to 2005
+ghgFile <- path.expand("~/Library/CloudStorage/Dropbox/data/beis/localAuthority/allGHG/2005-21-local-authority-ghg-emissions-csv-dataset-update-060723.csv")
+la_ghg_DT <- data.table::fread(ghgFile) 
+
+la_ghg_DT[, sectorLabel := `LA GHG Sector`]
+la_ghg_DT[, subSectorLabel := `LA GHG Sub-sector`]
+
+rmdParams$minYear <- min(caseStudy_DT$`Calendar Year`)
+rmdParams$maxYear <- max(caseStudy_DT$`Calendar Year`)
+```
+
+```{r setCategoryColours}
+
+# amend category labels for clarity and ordering
+# la_ghg_DT[, subSectorLabel := ifelse(subSectorLabel == "Agriculture",
+#      "Industry: Agriculture",
+#      subSectorLabel)
+#      ]
+la_ghg_DT[, subSectorLabel := ifelse(subSectorLabel == "Large Industrial Installations",
+     "Industry: Large Industrial Installations",
+     subSectorLabel)
+]
+la_ghg_DT[, subSectorLabel := ifelse(subSectorLabel == "Road Transport (A roads)",
+     "Transport: (A roads)",
+     subSectorLabel)
+]
+la_ghg_DT[, subSectorLabel := ifelse(subSectorLabel == "Road Transport (Minor roads)",
+     "Transport: (Minor roads)",
+     subSectorLabel)
+]
+la_ghg_DT[, subSectorLabel := ifelse(subSectorLabel == "Road Transport (Motorways)",
+     "Transport: (Motorways)",
+     subSectorLabel)
+]
+la_ghg_DT[, subSectorLabel := ifelse(subSectorLabel == "Diesel Railways",
+     "Transport: Diesel Railways",
+     subSectorLabel)
+]
+
+la_ghg_DT[, subSectorLabel := ifelse(subSectorLabel == "Transport 'Other'",
+     "Transport: other",
+     subSectorLabel)
+]
+
+la_ghg_DT[, subSectorLabel := ifelse(subSectorLabel == "Landfill",
+     "Waste: Landfill",
+     subSectorLabel)
+]
+
+la_ghg_DT[, subSectorLabel := ifelse(subSectorLabel == "Waste management 'Other'",
+     "Waste: other",
+     subSectorLabel)
+]
+
+la_ghg_DT[, la_name := `Local Authority`]
+
+
+# set up the colours
+
+# original code & colours borrowed from https://git.soton.ac.uk/twr1m15/la_emissions_viz/-/blob/master/shiny/app.R
+# for details, use set for each sector
+agric_pal <- RColorBrewer::brewer.pal(n = 5, name = "BuGn")[1:5]    # industry, 5 categories 
+commercial_pal <- RColorBrewer::brewer.pal(n = 3, name = "RdPu")[1:3]    # commercial , 3 categories
+domestic_pal <- RColorBrewer::brewer.pal(n = 4, name = "Blues")[2:4]    # domestic , 3 categories
+industry_pal <- RColorBrewer::brewer.pal(n = 4, name = "Greys")[1:4]    # industry , 4 categories 
+lulucf_pal <- RColorBrewer::brewer.pal(n = 8, name = "Greens")[1:8]     # lulucf , 8 categories
+public_pal <- RColorBrewer::brewer.pal(n = 3, name = "Purples")[1:3]    # public , 3 categories
+transport_pal <- RColorBrewer::brewer.pal(n = 5, name = "Oranges")[2:6] # transport , 5 categories
+waste_pal <- RColorBrewer::brewer.pal(n = 3, name = "Reds")[1:2] # waste , 2 category
+
+
+# for details, combine sets
+beis_emissions_colours <- c(agric_pal, commercial_pal, domestic_pal, industry_pal, lulucf_pal, public_pal, transport_pal, waste_pal)
+
+catList <- unique(la_ghg_DT$subSectorLabel) # this is not alphabetical - why?
+# select colours to be in the correct order
+catList2 <- c(catList[1:18],catList[32] , catList[19:24], catList[31] , catList[25:30])
+
+names(beis_emissions_colours) <- catList2
+
+# set a flag in the original data for the district we're interested in
+la_ghg_DT[, caseStudyFlag := ifelse(`Local Authority` == rmdParams$district, 
+                                         rmdParams$district,
+                                         "Comparison authorities")]
+# get just district we're interested in
+caseStudy_DT <- la_ghg_DT[caseStudyFlag == rmdParams$district]
+
+rmdParams$yearRange <- paste0(min(caseStudy_DT$`Calendar Year`, na.rm = TRUE), 
+                              "-",
+                              max(caseStudy_DT$`Calendar Year`, na.rm = TRUE)
+                              )
+```
+
+# What are we looking at?
+
+The graphs that follow show the estimated greenhouse gas emissions for **`r rmdParams$district`**.
+
+The graphs show [territorial-based](https://www.ons.gov.uk/economy/environmentalaccounts/articles/netzeroandthedifferentofficialmeasuresoftheuksgreenhousegasemissions/2019-07-24#measuring-the-uks-progress-to-net-zero) emissions: the emissions that come from activities carried out _in_ the local authority.
+
+The data used comes from the *[UK local authority and regional greenhouse gas emissions national statistics](https://www.gov.uk/government/collections/uk-local-authority-and-regional-greenhouse-gas-emissions-national-statistics)*.
+
+> "These statistics provide the most reliable and consistent breakdown of greenhouse gas emissions across the country, using nationally available data sets going back to 2005. They cover territorial emissions of carbon dioxide (CO2), methane (CH4) and nitrous oxide (N2O), although not fluorinated gases."
+
+See the [guidance on using the data](https://www.gov.uk/government/collections/uk-local-authority-and-regional-greenhouse-gas-emissions-national-statistics) for more explanation. 
+
+\newpage
+
+# Which are our biggest territorial emissions sources?
+
+```{r laCo2eColPlot, fig.height=4, fig.cap = "BEIS CO2e emissions by category"}
+#subSectorLabel %like% "Agric"
+plotDT <- caseStudy_DT[, .(`Total kT CO2e` = sum(`Territorial emissions (kt CO2e)`, na.rm = TRUE)), keyby = .(`Calendar Year`, subSectorLabel)]
+
+
+p <- ggplot2::ggplot(plotDT, aes(x = `Calendar Year`, 
+                       y = `Total kT CO2e`,
+                       fill = subSectorLabel)) +
+  geom_col(position = "stack") +
+  scale_fill_manual(values = beis_emissions_colours) +
+  theme(legend.position = "bottom", ) +
+  guides(colour=guide_legend(ncol=3)) +
+  theme(legend.title = element_blank()) +
+  labs(title = rmdParams$district,
+       x = "Year ",
+       y = "kT CO2e"
+       )
+p
+```
+
+
+
+```{r laCo2eLinePlot, fig.height = 6, fig.cap = "CO2e emissions by category"}
+p <- ggplot2::ggplot(plotDT, aes(x = `Calendar Year`, 
+                       y = `Total kT CO2e`,
+                       colour = subSectorLabel)) +
+  geom_line() +
+  scale_colour_manual(values = beis_emissions_colours) +
+  theme(legend.position = "bottom", ) +
+  guides(colour=guide_legend(ncol=3)) +
+  theme(legend.title = element_blank()) +
+  labs(title = rmdParams$district,
+       x = "Year ",
+       y = "kT CO2e"
+       )
+p
+
+```
+
+Figure \@ref(fig:laCo2eLinePlotly) shows an interactive version of the same plot. Hovering over specific lines is useful for identifying the sources.
+
+```{r laCo2eLinePlotly, fig.height = 6, fig.cap = "CO2e emissions by category"}
+library(plotly)
+plotly::ggplotly(p)
+
+
+```
+
+# Which sources make up 50%, 75% or 95% of our territorial emissions?
+
+We plot this for the first year in which we have data (`r rmdParams$minYear`).
+
+```{r plotCumulativeMinYear, fig.height=4, fig.cap = "Cumulative emissions by source"}
+
+t <- plotDT[`Calendar Year` == min(`Calendar Year`)]
+t <- t[order(-`Total kT CO2e`)]
+t[, cumulative := cumsum(`Total kT CO2e`)]
+
+grossTerrEm <- sum(t[`Total kT CO2e` > 0, `Total kT CO2e`])
+
+pc_50 <- 0.5*grossTerrEm
+pc_75 <- 0.75*grossTerrEm
+pc_95 <- 0.95*grossTerrEm
+
+p <- ggplot2::ggplot(t, aes(x = reorder(subSectorLabel, -`Total kT CO2e`), 
+                       y = cumulative,
+                       colour = subSectorLabel)) +
+  geom_point() +
+  ylim(0,NA) +
+  scale_colour_manual(values = beis_emissions_colours) +
+  theme(legend.position = "none") +
+  labs(title = rmdParams$district,
+       x = "Emissions source",
+       y = "Cumulative T CO2e/annum",
+       caption = "Vertical lines = % of gross emissions") +
+  coord_flip()
+
+
+# add reference lines
+p <- p + 
+  geom_hline(aes(yintercept = pc_50), colour = "grey") +
+  geom_hline(aes(yintercept = pc_75), colour = "grey") +
+  geom_hline(aes(yintercept = pc_95), colour = "grey") +
+  # locate on a category that is always likely to be near the top (small)!
+  annotate("text", x = "LULUCF Net Emissions: Indirect N2O", y = pc_50-1.4, label = "50%", colour = "grey") +
+  annotate("text", x = "LULUCF Net Emissions: Indirect N2O", y = pc_75-1.4, label = "75%", colour = "grey") +
+  annotate("text", x = "LULUCF Net Emissions: Indirect N2O", y = pc_95-1.4, label = "95%", colour = "grey")
+
+p
+```
+
+Now repeat this for the most recent year in which we have data (`r rmdParams$maxYear`). Have they changed much?
+
+```{r plotCumulativeMaxYear, fig.height=4, fig.cap = "Cumulative emissions by source"}
+
+t <- plotDT[`Calendar Year` == max(`Calendar Year`)]
+t <- t[order(-`Total kT CO2e`)]
+t[, cumulative := cumsum(`Total kT CO2e`)]
+
+grossTerrEm <- sum(t[`Total kT CO2e` > 0, `Total kT CO2e`])
+
+pc_50 <- 0.5*grossTerrEm
+pc_75 <- 0.75*grossTerrEm
+pc_95 <- 0.95*grossTerrEm
+
+p <- ggplot2::ggplot(t, aes(x = reorder(subSectorLabel, -`Total kT CO2e`), 
+                       y = cumulative,
+                       colour = subSectorLabel)) +
+  geom_point() +
+  ylim(0,NA) +
+  scale_colour_manual(values = beis_emissions_colours) +
+  theme(legend.position = "none") +
+  labs(title = rmdParams$district,
+       x = "Emissions source",
+       y = "Cumulative T CO2e/annum",
+       caption = "Vertical lines = % of gross emissions") +
+  coord_flip()
+
+
+# add reference lines
+p <- p + 
+  geom_hline(aes(yintercept = pc_50), colour = "grey") +
+  geom_hline(aes(yintercept = pc_75), colour = "grey") +
+  geom_hline(aes(yintercept = pc_95), colour = "grey") +
+  # locate on a category that is always likely to be near the top (small)!
+  annotate("text", x = "LULUCF Net Emissions: Indirect N2O", y = pc_50-1.4, label = "50%", colour = "grey") +
+  annotate("text", x = "LULUCF Net Emissions: Indirect N2O", y = pc_75-1.4, label = "75%", colour = "grey") +
+  annotate("text", x = "LULUCF Net Emissions: Indirect N2O", y = pc_95-1.4, label = "95%", colour = "grey")
+
+p
+```
+
+\newpage
+
+# How do our current territorial emissions compare with other local authorities?
+
+```{r}
+country <- unique(la_ghg_DT[caseStudyFlag == rmdParams$district, Country])
+```
+
+This plot compares current emissions with the mean across all other local authorities in `r country`.
+
+```{r laComparisonPlot, fig.height=6, warning=FALSE, fig.cap="Current emissions compared to mean emissions for all other local authorities"}
+
+
+plotDT <- la_ghg_DT[`Calendar Year` == max(`Calendar Year`) & Country == country, .(`kT CO2e` = mean(`Territorial emissions (kt CO2e)`, na.rm = TRUE)), keyby = .(`Calendar Year`, caseStudyFlag, subSectorLabel)]
+
+
+p <- ggplot2::ggplot(plotDT, aes(x = caseStudyFlag, 
+                       y = `kT CO2e`,
+                       fill = subSectorLabel)) +
+  geom_col(position = "stack") +
+  scale_fill_manual(values = beis_emissions_colours) +
+  theme(legend.position = "bottom", ) +
+  guides(fill=guide_legend(ncol=3)) +
+  theme(legend.title = element_blank()) +
+  labs(x = max(la_ghg_DT$`Calendar Year`),
+       y = "kT CO2e"
+       )
+p
+
+sum_CaseStudy <- sum(plotDT[caseStudyFlag == rmdParams$district, .(`kT CO2e`)])
+sum_Comparison <- sum(plotDT[caseStudyFlag != rmdParams$district, `kT CO2e`])
+
+```
+
+For comparison in `r  rmdParams$maxYear`:
+
+ * Mean total territorial emissions in comparator local authorities = `r round(sum_Comparison,1)` T CO2e
+ * `r rmdParams$district` total territorial emissions = `r round(sum_CaseStudy,1)` T CO2e
+ 
+\newpage
+
+\newpage
+
+# Data tables
+
+The data tables used to create the plots - if you need the numbers.
+
+## Territorial emissions
+
+```{r terrTable, warning=FALSE}
+
+dt <- caseStudy_DT[, .(`Total kT CO2e` = sum(`Territorial emissions (kt CO2e)`, na.rm = TRUE)), keyby = .(`Calendar Year`, Source = subSectorLabel)]
+
+mt <- dcast(dt, Source ~ `Calendar Year`)
+
+# Leave out power generation - see data guidance (it's included in the electricity usage emissions)
+makeFlexTable(mt, cap = paste0("Local authority territorial emissions (", rmdParams$district ,", kT CO2e)"
+                               )
+)
+
+```
+
+
+\newpage
+
+# Further information
+
+**Contact**: Dr [Ben Anderson](https://twitter.com/dataknut) (b.anderson@soton.ac.uk)
+
+Report last updated: `r Sys.time()`
+
+# Acknowledgements
+
+The code used to generate these graphs draws heavily on Dr [Tom Rushby](https://twitter.com/tom_rushby)'s [Local Authority Emissions](https://rushby.shinyapps.io/LAemissions/) explorer.
+
+# Code
+
+This report was built using [Rmarkdown](https://rmarkdown.rstudio.com/) in [RStudio](https://www.rstudio.com/). The code is [available](https://github.com/dataknut/emissionsViz) for inspection and re-use. Changes to the code are [logged](https://github.com/dataknut/emissionsViz/commits/main) so you can see how older version of this report may have been updated (and when).
+
+R packages used:
+
+ * data.table [@data.table]
+ * flextable [@flextable]
+ * ggplot2 [@ggplot2]
+ * here [@here]
+ * knitr [@knitr]
+ * rmarkdown [@rmarkdown]
+
+# References
+
