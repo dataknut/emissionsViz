@@ -120,13 +120,13 @@ waste_pal <- RColorBrewer::brewer.pal(n = 3, name = "Reds")[1:2] # waste , 2 cat
 
 
 # for details, combine sets
-beis_emissions_colours <- c(agric_pal, commercial_pal, domestic_pal, industry_pal, lulucf_pal, public_pal, transport_pal, waste_pal)
+desnz_emissions_colours <- c(agric_pal, commercial_pal, domestic_pal, industry_pal, lulucf_pal, public_pal, transport_pal, waste_pal)
 
 catList <- unique(la_ghg_DT$subSectorLabel) # this is not alphabetical - why?
 # select colours to be in the correct order
 catList2 <- c(catList[1:18],catList[32] , catList[19:24], catList[31] , catList[25:30])
 
-names(beis_emissions_colours) <- catList2
+names(desnz_emissions_colours) <- catList2
 
 # set a flag in the original data for the district we're interested in
 la_ghg_DT[, caseStudyFlag := ifelse(`Local Authority` == rmdParams$district, 
@@ -157,7 +157,7 @@ See the [guidance on using the data](https://www.gov.uk/government/collections/u
 
 # Which are our biggest territorial emissions sources?
 
-```{r laCo2eColPlot, fig.height=4, fig.cap = "BEIS CO2e emissions by category"}
+```{r laCo2eColPlot, fig.height=6, fig.cap = "CO2e emissions by category"}
 #subSectorLabel %like% "Agric"
 plotDT <- caseStudy_DT[, .(`Total kT CO2e` = sum(`Territorial emissions (kt CO2e)`, na.rm = TRUE)), keyby = .(`Calendar Year`, subSectorLabel)]
 
@@ -166,7 +166,7 @@ p <- ggplot2::ggplot(plotDT, aes(x = `Calendar Year`,
                        y = `Total kT CO2e`,
                        fill = subSectorLabel)) +
   geom_col(position = "stack") +
-  scale_fill_manual(values = beis_emissions_colours) +
+  scale_fill_manual(values = desnz_emissions_colours) +
   theme(legend.position = "bottom", ) +
   guides(fill=guide_legend(ncol=3)) +
   theme(legend.title = element_blank()) +
@@ -184,7 +184,7 @@ p <- ggplot2::ggplot(plotDT, aes(x = `Calendar Year`,
                        y = `Total kT CO2e`,
                        colour = subSectorLabel)) +
   geom_line() +
-  scale_colour_manual(values = beis_emissions_colours) +
+  scale_colour_manual(values = desnz_emissions_colours) +
   theme(legend.position = "bottom", ) +
   guides(colour=guide_legend(ncol=3)) +
   theme(legend.title = element_blank()) +
@@ -226,7 +226,7 @@ p <- ggplot2::ggplot(t, aes(x = reorder(subSectorLabel, -`Total kT CO2e`),
                        colour = subSectorLabel)) +
   geom_point() +
   ylim(0,NA) +
-  scale_colour_manual(values = beis_emissions_colours) +
+  scale_colour_manual(values = desnz_emissions_colours) +
   theme(legend.position = "none") +
   labs(title = rmdParams$district,
        x = "Emissions source",
@@ -267,7 +267,7 @@ p <- ggplot2::ggplot(t, aes(x = reorder(subSectorLabel, -`Total kT CO2e`),
                        colour = subSectorLabel)) +
   geom_point() +
   ylim(0,NA) +
-  scale_colour_manual(values = beis_emissions_colours) +
+  scale_colour_manual(values = desnz_emissions_colours) +
   theme(legend.position = "none") +
   labs(title = rmdParams$district,
        x = "Emissions source",
@@ -300,6 +300,48 @@ makeFlexTable(t[, .(Source = subSectorLabel,
   
 ```
 
+# Biogenic Net-Zero
+
+It has been suggested that carbon sequestration through land-use and land-use change should be primarily used to offset '[fast carbon cycle](https://www.earthobservatory.nasa.gov/features/CarbonCycle/page3.php)' agricultural emissions rather than to offset (and thus enable) the continued burning of '[slow carbon cycle](https://www.earthobservatory.nasa.gov/features/CarbonCycle/page2.php)' fossil fuels.  Figure \@ref(fig:biogenicNetZero) shows how close `r rmdParams$district` is to net-zero biogenic emissions under the definitions included in the plot. Note that this excludes emissions from Agricultural gas and electricity use which are assumed to be from the burning of fossil fuels and thus part of the slow carbon cycle.
+
+```{r biogenicNetZero, fig.cap = "How close are we to biogenic Net-Zero?"}
+
+biogenic <- caseStudy_DT[(subSectorLabel %like% "Agric" & 
+                                   !(subSectorLabel %like% "Gas") &
+                                   !(subSectorLabel %like% "Elec")) |
+                                  sectorLabel %like% "LULU", .(`Total kT CO2e` = sum(`Territorial emissions (kt CO2e)`, na.rm = TRUE)), keyby = .(`Calendar Year`, subSectorLabel)]
+
+
+p <- ggplot2::ggplot(biogenic, aes(x = `Calendar Year`, 
+                       y = `Total kT CO2e`,
+                       fill = subSectorLabel)) +
+  geom_col(position = "stack") +
+  scale_fill_manual(values = desnz_emissions_colours) +
+  theme(legend.position = "bottom", ) +
+  guides(fill=guide_legend(ncol=2)) +
+  theme(legend.title = element_blank()) +
+  labs(x = "LA GHG Sub-sector")
+
+p
+
+netSum <- sum(biogenic[`Calendar Year` == max(`Calendar Year`)]$`Total kT CO2e`)
+
+absNeg <- sum(biogenic[`Calendar Year` == max(`Calendar Year`) &
+                         `Total kT CO2e` < 0, `Total kT CO2e`])
+absPos <- sum(biogenic[`Calendar Year` == max(`Calendar Year`) &
+                         `Total kT CO2e` > 0, `Total kT CO2e`])
+ 
+pc <- 100*(abs(absNeg)/absPos)
+  
+if(netSum > 0){
+  netSumTxt <- paste0("positive, so emissions are larger than the level of sequestration (carbon capture). In this sense ", rmdParams$district, " is not yet biogenic net-zero.")
+} else {
+  netSumTxt <- paste0("negative, so emissions are lower than the level of sequestration (carbon capture). In this sense ", rmdParams$district, " is biogenic net negative!")
+}
+```
+
+In the most recent year, `r rmdParams$district` had net biogenic emissions using the categories defined in the plot of `r round(netSum)` kT CO2e (negative emissions are `r round(pc)` % of gross emissions). This value is `r netSumTxt`
+
 \newpage
 
 # How do our current territorial emissions compare with other local authorities?
@@ -320,7 +362,7 @@ p <- ggplot2::ggplot(plotDT, aes(x = caseStudyFlag,
                        y = `kT CO2e`,
                        fill = subSectorLabel)) +
   geom_col(position = "stack") +
-  scale_fill_manual(values = beis_emissions_colours) +
+  scale_fill_manual(values = desnz_emissions_colours) +
   theme(legend.position = "bottom", ) +
   guides(fill=guide_legend(ncol=3)) +
   theme(legend.title = element_blank()) +

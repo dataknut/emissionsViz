@@ -1,9 +1,9 @@
 # makes pdfs
 
 # Packages ----
-library(data.table)
 library(here)
 library(rmarkdown)
+library(bookdown)
 
 # Functions ----
 source(here::here("R", "functions.R"))
