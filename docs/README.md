@@ -4,21 +4,23 @@ Visualising GHG emissions for neighbourhoods, places and districts using various
 
 Examples:
 
- * Hampshire ([County level emissions](https://hcc-ccecf-datagroup.github.io/hampshire-ghg-emissions/rmd/Hampshire_County_GHG_Emissions_v1.1.html) estimates)
+ * Hampshire ([County level emissions](https://dataknut.github.io/hampshire-ghg-emissions/) estimates)
    * Eastleigh
-      * [Botley](parish_Botley_v2.pdf).
-   * Winchester
-      * [Hambledon](parish_Hambledon%20(Winchester)_v2.pdf) - a good example of a rural parish with a large share (~75%) of territorial emissions from road transport, agriculture and domestic heating oil. These are partially 'offset' by negative emissions (sequestration) from land use, land use change and forestry.
-      * [Micheldever](parish_Micheldever_v2.pdf) - a good example of how a _major road/motorway_ (M3) can dominate territorial emissions estimates at the parish level.
+      * [Botley](parish/parish_Botley_v2.pdf).
+    * Southampton - latest local [authority level](localAuthority/localAuthority_Southampton_v1.html) emissions trends
+    * Winchester
+      * [Hambledon](parish/parish_Hambledon%20(Winchester)_v2.pdf) - a good example of a rural parish with a large share (~75%) of territorial emissions from road transport, agriculture and domestic heating oil. These are partially 'offset' by negative emissions (sequestration) from land use, land use change and forestry.
+      * [Micheldever](parish/parish_Micheldever_v2.pdf) - a good example of how a _major road/motorway_ (M3) can dominate territorial emissions estimates at the parish level.
    * New Forest
-      * [Sway](parish_Sway_v2.pdf) - a good example of how a _major waste management_ site (?) can dominate territorial emissions estimates at the parish level.
+      * [Sway](parish/parish_Sway_v2.pdf) - a good example of how a _major waste management_ site (?) can dominate territorial emissions estimates at the parish level.
+
  * Suffolk
-   * East Suffolk
-      * [Badingham](parish_Badingham_v2.pdf) - strongly agricultural (arable), rural village, off-gas.
-      * [Framlingham](parish_Framlingham_v2.pdf) - agricultural (arable), rural town, on-gas.
+   * East Suffolk - latest local [authority level](localAuthority/localAuthority_East Suffolk_v1.html) emissions trends
+      * [Badingham](parish/parish_Badingham_v2.pdf) - strongly agricultural (arable), rural village, off-gas.
+      * [Framlingham](parish/parish_Framlingham_v2.pdf) - agricultural (arable), rural town, on-gas.
  * Staffordshire
-   * Staffordshire Moorlands
-      * [Longnor](parish_Longnor (Staffordshire Moorlands)_v2.pdf) - strongly agricultural (dairy, sheep), off-gas
+   * Staffordshire Moorlands - latest local [authority level](localAuthority/localAuthority_Staffordshire Moorlands_v1.html) emissions trends
+      * [Longnor](parish/parish_Longnor (Staffordshire Moorlands)_v2.pdf) - strongly agricultural (dairy, sheep), off-gas
 
 ## Code
 
@@ -28,6 +30,7 @@ See [https://github.com/dataknut/emissionsViz](https://github.com/dataknut/emiss
 
 Data sources include:
 
+ * DESNZ [UK local authority and regional greenhouse gas emissions national statistics](https://www.gov.uk/government/collections/uk-local-authority-and-regional-greenhouse-gas-emissions-national-statistics)
  * CSE/Uni Exeter 'impact' tool [parish level](https://impact-tool.org.uk/download) emissions estimates
  * CREDS [carbon.place](https://www.carbon.place/data/) LSOA level emissions estimates for England
 
