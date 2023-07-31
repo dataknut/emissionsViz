@@ -3,8 +3,10 @@ params:
   title: ""
   subtitle: ""
   district: ""
+  authors: ""
 title: '`r params$title`'
 subtitle: '`r params$subtitle`'
+author: '`r params$authors`'
 output:
   bookdown::html_document2:
     code_folding: hide

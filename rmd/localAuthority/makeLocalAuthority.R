@@ -13,11 +13,12 @@ source(here::here("R", "functions.R"))
 #                   output_dir= here::here("docs")
 # )
 
-makeReport <- function(title, subtitle, district){
+makeReport <- function(title, subtitle, author, district){
   # default = whatever is set in yaml
   rmarkdown::render(input = here::here("rmd","localAuthority", "localAuthority_Template.Rmd"),
                     params = list(title = title,
                                   subtitle = subtitle,
+                                  authors = author,
                                   district = district),
                     #output_format ="all", # output all formats specified in the rmd
                     output_file = paste0(here::here("docs/localAuthority/localAuthority_"), district, version)
@@ -34,11 +35,13 @@ message("Districts: ", laList)
 
 version <- "_v1"
 
+author <- "Author: Ben Anderson [`@dataknut`](https://twitter.com/dataknut)"
+
 #> run the report ----
 for(la in laList){
   # set params
   title <- "Estimated Local Authority Level Greenhouse Gas (GHG) Emissions 2005 - current:"
   subtitle <- la
   message("Running report on: ", subtitle)
-  makeReport(title, subtitle, la)
+  makeReport(title, subtitle, author, la)
 }
