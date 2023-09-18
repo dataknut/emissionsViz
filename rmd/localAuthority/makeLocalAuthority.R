@@ -35,7 +35,7 @@ message("Districts: ", laList)
 
 version <- "_v1"
 
-author <- "Author: Ben Anderson [`@dataknut`](https://twitter.com/dataknut)"
+author <- "Contact: Dr Ben Anderson [`@dataknut`](https://twitter.com/dataknut)"
 
 #> run the report ----
 for(la in laList){

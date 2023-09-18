@@ -411,7 +411,7 @@ makeFlexTable(mt, cap = paste0("Local authority territorial emissions (", rmdPar
 
 # Further information
 
-**Contact**: Dr [Ben Anderson](https://twitter.com/dataknut) (b.anderson@soton.ac.uk)
+**Contact**: Dr [Ben Anderson](https://twitter.com/dataknut)
 
 Report last updated: `r Sys.time()`
 
